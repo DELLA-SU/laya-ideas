@@ -179,3 +179,18 @@ body.drawing #contentMode{display:none}
 @media(max-width:760px){.reading-open{height:210px;min-height:0;padding:16px 12px}.reading-open h3{font-size:14px}}
 
 .privacy-link{position:fixed;bottom:10px;left:16px;font-size:11px;color:#777;z-index:10;background:#fff;padding:3px 5px;}
+
+/* An illuminated glass bulb introduces the keyword search. */
+body.landing,body.drawing{background:#faf9f6}
+body.landing .workspace,body.drawing .workspace{min-height:100svh;padding:28px 24px 48px}
+body.landing .controls,body.drawing .controls{width:460px;max-width:100%}
+body.landing .draw-stage,body.drawing .draw-stage{width:430px;max-width:100%;margin:0 auto 12px}
+.draw-stage canvas{aspect-ratio:1}
+body.landing input{background:transparent;border-bottom-color:#36312a}
+body.landing form button{background:#24211d;border-color:#24211d;transition:background .2s,box-shadow .2s}
+body.landing form button:hover{background:#3b3021;box-shadow:0 4px 20px #bf843a20}
+body.drawing .draw-stage h2{font-size:21px;letter-spacing:-.5px;color:#352a1c;margin:14px 0 8px}
+body.drawing .draw-stage p{font-size:12px;color:#8a7b67}
+body.landing .privacy-link,body.drawing .privacy-link{background:transparent;color:#958c7e}
+@media(max-width:760px){body.landing .workspace,body.drawing .workspace{padding:20px 25px 42px}body.landing .draw-stage,body.drawing .draw-stage{width:min(350px,100%)}body.drawing .draw-stage h2{font-size:19px}}
+@media(max-height:740px) and (min-width:761px){body.landing .draw-stage,body.drawing .draw-stage{width:340px}body.landing .workspace,body.drawing .workspace{padding-top:16px;padding-bottom:34px}}
