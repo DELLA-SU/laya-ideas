@@ -212,3 +212,12 @@ body.drawing .draw-stage p{color:#a39b8d}
 body.landing .privacy-link,body.drawing .privacy-link{color:#88847b}
 @media(max-width:760px){body.landing .guy-brand,body.drawing .guy-brand{font-size:21px}body.landing .draw-stage,body.drawing .draw-stage{width:min(350px,100%)}}
 @media(max-height:740px) and (min-width:761px){body.landing .draw-stage,body.drawing .draw-stage{width:340px}}
+
+/* Let the portrait fill the entrance and merge its dark backdrop with the page. */
+body.landing .controls,body.drawing .controls{width:780px;max-width:100%}
+body.landing .draw-stage,body.drawing .draw-stage{width:min(760px,74svh);max-width:100%;margin:0 auto 4px}
+body.landing .draw-stage canvas,body.drawing .draw-stage canvas{mix-blend-mode:lighten}
+body.landing .search-area{width:460px;max-width:100%;margin:0 auto}
+body.landing .workspace,body.drawing .workspace{padding:24px 24px 44px}
+body.landing .guy-brand,body.drawing .guy-brand{margin:0;font-size:22px}
+@media(max-width:760px){body.landing .draw-stage,body.drawing .draw-stage{width:min(620px,70svh);max-width:calc(100vw - 16px)}body.landing .controls,body.drawing .controls{width:100%}body.landing .workspace,body.drawing .workspace{padding:22px 8px 42px}body.landing .search-area{width:calc(100% - 40px)}body.landing .guy-brand,body.drawing .guy-brand{font-size:20px}}

@@ -3,7 +3,7 @@ import { expandPair } from './idea-expansion.js';
 import { wallSize, layoutWall, readingQuota, mixWall } from './idea-wall.js?v=70-30';
 import { createMoodboard } from './moodboard.js?v=arrows-20261005';
 import { searchArena } from './arena.js?v=global';
-import { createDrawMachine } from './draw-machine.js?v=ideation-guy-1';
+import { createDrawMachine } from './draw-machine.js?v=ideation-guy-2';
 import { shuffleItems, uniqueImages, chooseBatch, chooseSourceBatch, chooseIdeaBatch } from './selection.js?v=70-30';
 const $ = s => document.querySelector(s);
 const machine=createDrawMachine($('#drawStage'),$('#drawCanvas'),$('#drawHeading'),$('#drawMessage'));

@@ -16,10 +16,10 @@ export function createDrawMachine(stage,canvas,heading,message){
       // Feather the photographic edges into the page without cropping the glass.
       ctx.globalCompositeOperation='destination-in';
       const fade=ctx.createLinearGradient(0,0,0,480);
-      fade.addColorStop(0,'transparent');fade.addColorStop(.045,'#fff');fade.addColorStop(.82,'#fff');fade.addColorStop(1,'transparent');
+      fade.addColorStop(0,'transparent');fade.addColorStop(.08,'#fff');fade.addColorStop(.82,'#fff');fade.addColorStop(1,'transparent');
       ctx.fillStyle=fade;ctx.fillRect(0,0,480,480);
       const sides=ctx.createLinearGradient(0,0,480,0);
-      sides.addColorStop(0,'transparent');sides.addColorStop(.07,'#fff');sides.addColorStop(.93,'#fff');sides.addColorStop(1,'transparent');
+      sides.addColorStop(0,'transparent');sides.addColorStop(.20,'#fff');sides.addColorStop(.80,'#fff');sides.addColorStop(1,'transparent');
       ctx.fillStyle=sides;ctx.fillRect(0,0,480,480);ctx.restore();
     }
     if(active){
