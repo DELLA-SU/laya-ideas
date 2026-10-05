@@ -12,7 +12,7 @@ export function createDrawMachine(stage,canvas,heading,message){
     const ignition=reducedMotion.matches?1:Math.min(elapsed/.65,1);
     const energy=active?(illuminated?1:ignition*(.7+.06*Math.sin(elapsed*2.3))):0;
     if(photograph.complete&&photograph.naturalWidth){
-      ctx.save();ctx.drawImage(photograph,0,0,480,480);
+      ctx.save();ctx.drawImage(photograph,0,0,photograph.naturalWidth/2,photograph.naturalHeight/2,0,0,480,480);
       // Feather the photographic edges into the page without cropping the glass.
       ctx.globalCompositeOperation='destination-in';
       const fade=ctx.createLinearGradient(0,0,0,480);
@@ -37,7 +37,7 @@ export function createDrawMachine(stage,canvas,heading,message){
   }
   photograph.onload=()=>paint(performance.now());
   photograph.onerror=()=>{heading.hidden=false;heading.textContent='전구 이미지를 불러오지 못했어요.';};
-  photograph.src=new URL('./assets/ideation-guy.png',import.meta.url).href;
+  photograph.src=new URL('./assets/guy-turnaround.png',import.meta.url).href;
   function stop(){active=false;cancelAnimationFrame(frame);stage.hidden=true;document.body.classList.remove('drawing','landing');}
   return {
     start(keyword){
