@@ -1,5 +1,6 @@
+import {entranceLook} from './entrance-looks.js?v=concepts-1';
 export function createDrawMachine(stage,canvas,heading,message){
-  const ctx=canvas.getContext('2d');
+  const ctx=canvas.getContext('2d'),look=entranceLook();
   const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
   const photograph=new Image();
   const scale=Math.min(devicePixelRatio||1,2);
@@ -28,7 +29,7 @@ export function createDrawMachine(stage,canvas,heading,message){
       glow.addColorStop(0,`rgba(255,192,67,${energy*.6})`);
       glow.addColorStop(.42,`rgba(243,159,43,${energy*.25})`);glow.addColorStop(1,'rgba(243,159,43,0)');
       ctx.fillStyle=glow;ctx.fillRect(95,8,290,265);
-      ctx.globalAlpha=energy;ctx.strokeStyle='#ffedb5';ctx.lineWidth=1.4;
+      ctx.globalAlpha=look.filament?energy:0;ctx.strokeStyle='#ffedb5';ctx.lineWidth=1.4;
       ctx.shadowColor='#ffa42b';ctx.shadowBlur=15;ctx.beginPath();
       for(let x=213;x<=267;x+=.3){const y=115.5+1.8*Math.sin((x-213)*5.9);if(x===213)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
       ctx.stroke();ctx.restore();
@@ -37,7 +38,7 @@ export function createDrawMachine(stage,canvas,heading,message){
   }
   photograph.onload=()=>paint(performance.now());
   photograph.onerror=()=>{heading.hidden=false;heading.textContent='전구 이미지를 불러오지 못했어요.';};
-  photograph.src=new URL('./assets/guy-turnaround.png',import.meta.url).href;
+  photograph.src=new URL('./assets/'+look.asset,import.meta.url).href;
   function stop(){active=false;cancelAnimationFrame(frame);stage.hidden=true;document.body.classList.remove('drawing','landing');}
   return {
     start(keyword){

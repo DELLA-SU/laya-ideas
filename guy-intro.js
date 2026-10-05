@@ -1,11 +1,13 @@
+import {applyEntranceLook} from './entrance-looks.js?v=concepts-1';
 export function playGuyIntro(){
+  const look=applyEntranceLook();
   const root=document.querySelector('#guyIntro'),canvas=document.querySelector('#introCanvas');
   if(!root||!canvas)return;
   const main=document.querySelector('main'),skip=document.querySelector('#skipIntro');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const ctx=canvas.getContext('2d'),sheet=new Image();
   let frame=0,started=0,done=false,ready=false,width=0,height=0;
-  main.inert=true;
+  main.inert=true;root.focus({preventScroll:true});
   function resize(){width=innerWidth;height=innerHeight;const dpr=Math.min(devicePixelRatio||1,1.5);canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
   const smooth=x=>{x=Math.min(1,Math.max(0,x));return x*x*(3-2*x);};
   function finish(){if(done)return;done=true;cancelAnimationFrame(frame);root.hidden=true;document.body.classList.remove('intro-playing');main.inert=false;window.removeEventListener('resize',resize);}
@@ -19,10 +21,10 @@ export function playGuyIntro(){
   }
   function paint(now){
     if(done)return;
-    if(!ready){ctx.fillStyle='#050505';ctx.fillRect(0,0,width,height);frame=requestAnimationFrame(paint);return;}
+    if(!ready){ctx.fillStyle=look.background;ctx.fillRect(0,0,width,height);frame=requestAnimationFrame(paint);return;}
     if(!started)started=now;
     const t=(now-started)/1000;
-    ctx.fillStyle='#050505';ctx.fillRect(0,0,width,height);
+    ctx.fillStyle=look.background;ctx.fillRect(0,0,width,height);
     if(reduced.matches){portrait(0,1,Math.max(height*1.12,width*.65),(width-Math.max(height*1.12,width*.65))/2,0,1);if(t>1.2)finish();else frame=requestAnimationFrame(paint);return;}
     const turn=smooth((t-3.0)/2.0)*3;
     const index=Math.min(3,Math.floor(turn)),blend=smooth(turn-index);
@@ -40,11 +42,11 @@ export function playGuyIntro(){
     const a=anchors[index],b=anchors[Math.min(index+1,3)];
     const filamentX=x+size*(a[0]+(b[0]-a[0])*blend),bulbY=y+size*(a[1]+(b[1]-a[1])*blend);
     const filamentWidth=size*(a[2]+(b[2]-a[2])*blend);
-    ctx.globalAlpha=light;ctx.strokeStyle='#fff1bc';ctx.lineWidth=1.6;ctx.shadowColor='#ffae30';ctx.shadowBlur=22;ctx.beginPath();
+    ctx.globalAlpha=look.filament?light:0;ctx.strokeStyle='#fff1bc';ctx.lineWidth=1.6;ctx.shadowColor='#ffae30';ctx.shadowBlur=22;ctx.beginPath();
     for(let dx=0;dx<=filamentWidth;dx+=.6){const fx=filamentX-filamentWidth/2+dx,fy=bulbY+Math.sin(dx*2.2)*2.2;if(dx===0)ctx.moveTo(fx,fy);else ctx.lineTo(fx,fy);}
     ctx.stroke();ctx.globalAlpha=1;ctx.shadowBlur=0;
     const halo=ctx.createRadialGradient(width/2,bulbY,0,width/2,bulbY,size*.27);
-    halo.addColorStop(0,`rgba(255,189,69,${light*.38})`);halo.addColorStop(.45,`rgba(222,135,36,${light*.12})`);halo.addColorStop(1,'rgba(222,135,36,0)');
+    halo.addColorStop(0,`rgba(${look.light.join(',')},${light*.38})`);halo.addColorStop(.45,`rgba(222,135,36,${light*.12})`);halo.addColorStop(1,'rgba(222,135,36,0)');
     ctx.fillStyle=halo;ctx.fillRect(0,0,width,height);
     const atmosphere=ctx.createRadialGradient(width/2,height*.35,0,width/2,height*.35,height);
     atmosphere.addColorStop(0,`rgba(120,70,17,${light*.035})`);atmosphere.addColorStop(1,'transparent');
@@ -53,7 +55,7 @@ export function playGuyIntro(){
   }
   sheet.onload=()=>{ready=true;};
   sheet.onerror=finish;
-  sheet.src=new URL('./assets/guy-turnaround.png',import.meta.url).href;
+  sheet.src=new URL('./assets/'+look.asset,import.meta.url).href;
   resize();window.addEventListener('resize',resize);window.addEventListener('pagehide',finish,{once:true});frame=requestAnimationFrame(paint);
   // Keep the search usable if a slow image connection never completes.
   setTimeout(()=>{if(!ready)finish();},9000);
