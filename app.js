@@ -1,4 +1,4 @@
-import { publicRequest } from './public-services.js';
+import { publicRequest } from './public-services.js?v=deployment-3';
 import { expandPair } from './idea-expansion.js';
 import { wallSize, layoutWall, readingQuota, mixWall } from './idea-wall.js?v=70-30';
 import { createMoodboard } from './moodboard.js?v=arrows-20261005';

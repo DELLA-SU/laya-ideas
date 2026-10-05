@@ -13,13 +13,13 @@ export async function publicRequest(path){
   const d=await get('https://api.artic.edu/api/v1/artworks/search?'+new URLSearchParams({q:en,limit:'50',fields:'id,title,image_id,artist_display,is_public_domain,thumbnail'})).catch(()=>({data:[]}));
   const items=(d.data||[]).filter(x=>x.image_id&&x.is_public_domain&&x._score>1).map(x=>({id:'artic-'+x.id,hash:'artic-'+x.image_id,image:'https://www.artic.edu/iiif/2/'+encodeURIComponent(x.image_id)+'/full/843,/0/default.jpg',source:'https://www.artic.edu/artworks/'+x.id,title:x.title,artist:x.artist_display,description:x.thumbnail?.alt_text||'',aspectRatio:x.thumbnail?.width/x.thumbnail?.height||1,provider:'Art Institute of Chicago',providerMode:'public-design',license:'Public domain · CC0',licenseURL:'https://www.artic.edu/open-access/open-access-images'}));
   const diagnostics=[];const output=[];
-  if(!items.length||await previewWorks(items[0].image)){output.push(...items);diagnostics.push({provider:'Art Institute of Chicago',count:items.length,status:'ok'});}else diagnostics.push({provider:'Art Institute of Chicago',count:0,status:'unavailable'});
+  const loaded=await Promise.all(items.map(x=>previewWorks(x.image)));const valid=items.filter((x,i)=>loaded[i]);output.push(...valid);diagnostics.push({provider:'Art Institute of Chicago',count:valid.length,status:valid.length||!items.length?'ok':'unavailable'});
   try{
    const search=await get('https://collectionapi.metmuseum.org/public/collection/v1.1/search?'+new URLSearchParams({q:en,hasImages:'true',title:'true',limit:'50'}));
    const ids=(search.objectIDs||[]).slice(0,50);const works=[];
    for(let n=0;n<ids.length;n+=8){const batch=await Promise.allSettled(ids.slice(n,n+8).map(id=>get('https://collectionapi.metmuseum.org/public/collection/v1/objects/'+id)));for(const r of batch)if(r.status==='fulfilled'&&r.value.isPublicDomain&&https(r.value.primaryImageSmall))works.push(r.value);}
    const met=works.map(x=>({id:'met-'+x.objectID,hash:x.primaryImage,image:x.primaryImageSmall,source:https(x.objectURL)||'https://www.metmuseum.org/art/collection/search/'+x.objectID,title:x.title,artist:x.artistDisplayName,description:x.medium,provider:'The Metropolitan Museum of Art',providerMode:'public-design',license:'Public domain · CC0',licenseURL:'https://www.metmuseum.org/about-the-met/policies-and-documents/open-access'}));
-   if(!met.length||await previewWorks(met[0].image)){output.push(...met);diagnostics.push({provider:'The Met',count:met.length,status:'ok'});}else diagnostics.push({provider:'The Met',count:0,status:'unavailable'});
+   const loadedMet=await Promise.all(met.map(x=>previewWorks(x.image)));const validMet=met.filter((x,i)=>loadedMet[i]);output.push(...validMet);diagnostics.push({provider:'The Met',count:validMet.length,status:validMet.length||!met.length?'ok':'unavailable'});
   }catch{diagnostics.push({provider:'The Met',count:0,status:'unavailable'});}
   return {items:output,diagnostics};
  }
