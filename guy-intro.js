@@ -1,4 +1,4 @@
-import {applyEntranceLook} from './entrance-looks.js?v=concepts-5';
+import {applyEntranceLook} from './entrance-looks.js?v=modes-1';
 export function playGuyIntro(){
   const look=applyEntranceLook();
   const root=document.querySelector('#guyIntro'),canvas=document.querySelector('#introCanvas');

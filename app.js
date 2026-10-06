@@ -1,12 +1,14 @@
-import { playGuyIntro } from './guy-intro.js?v=concepts-5';
+import {setupModePicker} from './entrance-looks.js?v=modes-1';
+import { playGuyIntro } from './guy-intro.js?v=modes-1';
 import { publicRequest } from './public-services.js?v=deployment-3';
 import { expandPair } from './idea-expansion.js';
 import { wallSize, layoutWall, readingQuota, mixWall } from './idea-wall.js?v=70-30';
 import { createMoodboard } from './moodboard.js?v=arrows-20261005';
 import { searchArena } from './arena.js?v=global';
-import { createDrawMachine } from './draw-machine.js?v=concepts-5';
+import { createDrawMachine } from './draw-machine.js?v=modes-1';
 import { shuffleItems, uniqueImages, chooseBatch, chooseSourceBatch, chooseIdeaBatch } from './selection.js?v=70-30';
 const $ = s => document.querySelector(s);
+setupModePicker();
 const machine=createDrawMachine($('#drawStage'),$('#drawCanvas'),$('#drawHeading'),$('#drawMessage'));
 playGuyIntro();
 const pinterestPaused=window.PINTEREST_PAUSED===true;

@@ -1,4 +1,4 @@
-import {entranceLook} from './entrance-looks.js?v=concepts-5';
+import {entranceLook} from './entrance-looks.js?v=modes-1';
 export function createDrawMachine(stage,canvas,heading,message){
   const ctx=canvas.getContext('2d'),look=entranceLook();
   const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
