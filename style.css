@@ -250,3 +250,5 @@ body.landing .entrance-modes{display:flex;align-items:center;justify-content:cen
 
 body.landing .draw-stage{width:min(760px,calc(74svh - 48px))}
 @media(max-width:760px){body.landing .draw-stage{width:min(620px,calc(70svh - 44px))}}
+
+.connections-link{position:fixed;right:24px;bottom:56px;font:12px system-ui;color:#777;z-index:20;text-decoration:none}.landing .connections-link{color:#aaa}

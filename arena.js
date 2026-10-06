@@ -22,5 +22,5 @@ export function matchBlocks(items,keyword,translated=keyword){
 }
 export async function searchArena(keyword,translated,fetchJSON){
   const data=await fetchJSON('/api/arena/search?'+new URLSearchParams({q:keyword,en:translated.replace(/\s+-\S+/g,'')}));
-  return {items:(data.data||[]).map(block=>normalizeBlock(block)).filter(Boolean),scope:'all',partial:false};
+  return {items:(data.data||[]).map(block=>normalizeBlock(block)).filter(Boolean),scope:data.scope||'all',partial:!!data.partial};
 }
