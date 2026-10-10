@@ -16,12 +16,7 @@ export function createFlashlight(results,grid,toggle,value){
  function clear(){generation++;clearTimeout(timer);ready=false;previewing=false;point=null;sync();}
  function preview(){
   const current=++generation;clearTimeout(timer);ready=!!grid.children.length;previewing=true;sync();
-  const pending=[...grid.querySelectorAll('img')].filter(img=>!img.complete).map(img=>new Promise(resolve=>{
-   const finish=()=>{img.removeEventListener('load',finish);img.removeEventListener('error',finish);resolve();};
-   img.addEventListener('load',finish,{once:true});img.addEventListener('error',finish,{once:true});
-  }));
-  const begin=()=>{if(current!==generation)return;clearTimeout(timer);timer=setTimeout(()=>{previewing=false;sync();},2400);};
-  if(!pending.length)begin();else{timer=setTimeout(begin,4000);Promise.all(pending).then(begin);}
+  timer=setTimeout(()=>{if(current!==generation)return;previewing=false;sync();},2000);
  }
  toggle.onclick=()=>{enabled=!enabled;try{localStorage.setItem(key,enabled?'on':'off');}catch{}if(enabled)preview();else sync();};
  results.addEventListener('pointermove',e=>{point={x:e.clientX,y:e.clientY};schedule();},{passive:true});

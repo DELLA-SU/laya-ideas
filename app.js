@@ -1,7 +1,7 @@
 import {createKoreanDisplay,displayTitle,needsKorean,translatePublicKorean} from './korean-display.js?v=ko-1';
 import {createResultHistory,resultSignature} from './result-history.js?v=1';
 import {createReferenceCache} from './reference-cache.js?v=archive-1';
-import {createFlashlight} from './flashlight.js?v=2';
+import {createFlashlight} from './flashlight.js?v=3';
 import { playGuyIntro } from './guy-intro.js?v=moustache-1';
 import { publicRequest } from './public-services.js?v=deployment-3';
 import { expandPair } from './idea-expansion.js?v=ko-1';
