@@ -1,4 +1,4 @@
-export function createMoodboard(getSaved,localize=async item=>item){
+export function createMoodboard(getSaved,localize=async item=>item,onEditDraft=null){
   const $=s=>document.querySelector(s),surface=$('#boardSurface');
   let data;try{data=JSON.parse(localStorage.getItem('laya:board:v1'))||{};}catch{data={};}
   data.positions=data.positions||{};data.notes=Array.isArray(data.notes)?data.notes:[];
@@ -72,7 +72,8 @@ export function createMoodboard(getSaved,localize=async item=>item){
     arrowLayer=document.createElementNS(ns,'svg');arrowLayer.classList.add('board-arrows');arrowLayer.setAttribute('width','1800');arrowLayer.setAttribute('height','2000');surface.append(arrowLayer);
     items.forEach((item,index)=>{
       const card=el('article',null,'board-card'),handle=el('button','↔ '+(item.keyword||item.title),'board-handle');handle.setAttribute('aria-label',(item.keyword||item.title)+' 카드 이동');card.append(handle);
-      if(item.kind==='connection'){const pair=el('div',null,'board-pair');for(const r of item.references||[])pair.append(ref(r));card.append(pair,el('p',item.idea,'board-idea'));}
+      if(item.kind==='connection'&&item.image){const draft=el('img');draft.src=item.image;draft.alt=item.keyword;draft.className='board-draft';card.append(draft,el('p',item.idea,'board-idea'));if(onEditDraft&&item.studio){const edit=el('button','제작실에서 수정','board-edit-draft');edit.onclick=()=>{$('#boardDialog').close();onEditDraft(item);};card.append(edit);}}
+      else if(item.kind==='connection'){const pair=el('div',null,'board-pair');for(const r of item.references||[])pair.append(ref(r));card.append(pair,el('p',item.idea,'board-idea'));}
       else{card.append(ref(item));const source=el('a','원문 ↗');source.href=item.source;source.target='_blank';source.rel='noopener noreferrer';card.append(source);}
       attach(card,item.id,index);
     });

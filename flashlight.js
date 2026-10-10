@@ -3,6 +3,8 @@ export function createFlashlight(results,grid,toggle,value){
  const editor=results.querySelector('#pairPanel');
  try{enabled=localStorage.getItem(key)!=='off';}catch{}
  const mask=document.createElement('div');mask.className='flashlight-mask';mask.setAttribute('aria-hidden','true');mask.hidden=true;document.body.append(mask);
+ const stars=document.createElement('div');stars.className='flashlight-stars';
+ for(let i=0;i<54;i++){const star=document.createElement('i');star.className=i%13===0?'star-cross':'star-dot';star.style.left=((i*37.73+11)%100)+'%';star.style.top=((i*61.37+7)%100)+'%';star.style.setProperty('--star-delay',-(i%9)+'s');stars.append(star);}mask.append(stars);
  let timer=0,frame=0,generation=0,ready=false,previewing=false,point=null;
  function sync(){
   toggle.setAttribute('aria-checked',String(enabled));value.textContent=enabled?'ON':'OFF';
@@ -16,7 +18,7 @@ export function createFlashlight(results,grid,toggle,value){
  function clear(){generation++;clearTimeout(timer);ready=false;previewing=false;point=null;sync();}
  function preview(){
   const current=++generation;clearTimeout(timer);ready=!!grid.children.length;previewing=true;sync();
-  timer=setTimeout(()=>{if(current!==generation)return;previewing=false;sync();},2000);
+  timer=setTimeout(()=>{if(current!==generation)return;previewing=false;sync();},1000);
  }
  toggle.onclick=()=>{enabled=!enabled;try{localStorage.setItem(key,enabled?'on':'off');}catch{}if(enabled)preview();else sync();};
  results.addEventListener('pointermove',e=>{point={x:e.clientX,y:e.clientY};schedule();},{passive:true});

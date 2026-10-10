@@ -1,3 +1,4 @@
+import {isKoreanOriginal} from './korean-sources.js?v=1';
 // Browser-accessible public APIs for GitHub Pages. No credentials are embedded.
 const clean=s=>String(s||'').replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
 const https=s=>{try{const u=new URL(s);return u.protocol==='https:'?u.href:'';}catch{return '';}};
@@ -24,13 +25,15 @@ export async function publicRequest(path){
   return {items:output,diagnostics};
  }
  if(url.pathname==='/api/readings/search') {
-  const language=/[가-힣]/.test(q)?'ko':'en';
+  const native=p.get('lang')==='ko';
+  const language=native||/[가-힣]/.test(q)?'ko':'en';
+  const term=native?q:en;
   const wiki='https://'+language+'.wikipedia.org/w/api.php?'+new URLSearchParams({action:'query',generator:'search',gsrsearch:'intitle:'+q,gsrlimit:'8',prop:'extracts|info',inprop:'url',exintro:'1',explaintext:'1',exchars:'300',exlimit:'max',format:'json',formatversion:'2',origin:'*'});
-  const cross='https://api.crossref.org/works?'+new URLSearchParams({'query.title':en,filter:'type:journal-article',rows:'12',select:'DOI,title,container-title,published'});
+  const cross='https://api.crossref.org/works?'+new URLSearchParams({'query.title':term,filter:'type:journal-article',rows:native?'25':'12',select:'DOI,title,container-title,published'});
   const results=await Promise.allSettled([get(wiki),get(cross)]),items=[],unavailable=[];
   if(results[0].status==='fulfilled')for(const x of results[0].value.query?.pages||[]){if(https(x.fullurl))items.push(reading('백과',x.title,x.fullurl,'위키백과',x.extract));}else unavailable.push('위키백과');
-  if(results[1].status==='fulfilled')for(const x of results[1].value.message?.items||[]){if(x.DOI&&x.title?.[0]&&relevant(x.title[0],en))items.push(reading('논문',x.title[0],'https://doi.org/'+x.DOI.toLowerCase(),x['container-title']?.[0]||'Crossref','',(x.published?.['date-parts']?.[0]||[]).join('-')));}else unavailable.push('Crossref');
-  return {items,unavailable};
+  if(results[1].status==='fulfilled')for(const x of results[1].value.message?.items||[]){if(x.DOI&&x.title?.[0]&&relevant(x.title[0],term))items.push(reading('논문',x.title[0],'https://doi.org/'+x.DOI.toLowerCase(),x['container-title']?.[0]||'Crossref','',(x.published?.['date-parts']?.[0]||[]).join('-')));}else unavailable.push('Crossref');
+  return {items:native?items.filter(isKoreanOriginal):items,unavailable};
  }
  if(['/api/images/search','/api/pinterest/public-search'].includes(url.pathname))return {items:[]};
  if(url.pathname==='/api/arena/search')throw new Error('Are.na 전체 검색은 인증 서버 연결 후 사용할 수 있습니다.');
