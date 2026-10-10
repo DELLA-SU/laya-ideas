@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko">
-<head><script>if(location.protocol==='file:'){location.replace('http://localhost:4173/'+location.search+location.hash);}</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080808"><meta name="description" content="키워드 하나에서 시작하는 이미지와 읽을거리. 한 화면을 채우는 새로운 영감."><title>Ideation Guy — 아이디어 뽑기</title><link rel="stylesheet" href="style.css?v=flashlight-1"><link rel="stylesheet" href="dark.css?v=3"><script src="runtime-config.js?v=collector-1"></script><script type="module" src="app.js?v=flashlight-3"></script></head>
+<head><script>if(location.protocol==='file:'){location.replace('http://localhost:4173/'+location.search+location.hash);}</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080808"><meta name="description" content="키워드 하나에서 시작하는 이미지와 읽을거리. 한 화면을 채우는 새로운 영감."><title>Ideation Guy — 아이디어 뽑기</title><link rel="stylesheet" href="style.css?v=flashlight-1"><link rel="stylesheet" href="dark.css?v=4"><script src="runtime-config.js?v=collector-1"></script><script type="module" src="app.js?v=mix-1"></script></head>
 <body class="dark-ui landing intro-playing">
 
 <section id="guyIntro" aria-label="Ideation Guy 인트로" tabindex="-1"><canvas id="introCanvas" aria-hidden="true"></canvas><button id="skipIntro" type="button">건너뛰기 ↗</button></section>
@@ -19,13 +19,14 @@
 <div class="idea-prompts"><form id="combineForm">
 <details class="optional-features"><summary>특징 직접 더하기</summary><label for="featureA">첫 아이디어 특징 · 선택</label><input id="featureA" placeholder="비워두면 카드에서 연결" maxlength="120">
 <label for="featureB">두 번째 아이디어 특징 · 선택</label><input id="featureB" placeholder="비워두면 카드에서 연결" maxlength="120"></details>
-<button type="submit">두 아이디어 확장하기</button>
-</form><div id="combinationResult" hidden><div id="expansionKeywords" class="expansion-keywords" aria-label="확장 키워드"></div><label for="ideaResult">연결한 아이디어</label><textarea id="ideaResult" rows="5" maxlength="2000"></textarea><button id="saveConnection" type="button">아이디어 모아두기 +</button><p id="connectionStatus" role="status" aria-live="polite"></p></div></div>
+<button type="submit">아이디어 믹스 만들기</button>
+</form></div>
 </div></section><p id="readingNotice" hidden role="status"></p><div id="grid" class="grid viewport-wall" aria-busy="false"></div><div id="empty" class="empty" hidden></div>
 
 </section>
 
 </main>
 
+<dialog id="mixDialog" aria-labelledby="mixHeading"><button class="close" id="closeMix" aria-label="아이디어 믹스 닫기">×</button><div class="mix-heading"><span>IDEA MIX</span><h2 id="mixHeading">두 자료에서 시작한 새로운 상상</h2><p>제목과 설명에서 연결한 상상 제안이에요.</p><button id="remixIdeas" type="button">다시 믹스 ↻</button></div><div id="mixReferences" class="mix-references"></div><div id="mixCards" class="mix-cards"></div><div id="combinationResult" hidden><div id="expansionKeywords" class="expansion-keywords" aria-label="확장 키워드"></div><label for="ideaResult">선택한 아이디어 · 직접 수정할 수 있어요</label><textarea id="ideaResult" rows="5" maxlength="2000"></textarea><details class="mix-prompt"><summary>이미지 제작용 프롬프트</summary><textarea id="imagePrompt" readonly rows="4" aria-label="이미지 제작용 프롬프트"></textarea><button id="copyImagePrompt" type="button">프롬프트 복사</button><p id="promptStatus" role="status"></p></details><button id="saveConnection" type="button">아이디어 모아두기 +</button><p id="connectionStatus" role="status" aria-live="polite"></p></div></dialog>
 <dialog id="detail"><button class="close" id="closeDetail" aria-label="상세 보기 닫기">×</button><div id="detailBody"></div></dialog>
 <dialog id="boardDialog" aria-label="무드보드와 브레인스토밍"><div class="board-toolbar"><button id="closeBoard" aria-label="무드보드 닫기">← 돌아가기</button><button id="addBoardNote">메모 추가 +</button><button id="arrangeBoard">정렬하기</button><button id="connectBoard" aria-pressed="false">화살표 연결 →</button><button id="deleteBoardArrow" disabled>선택 연결 삭제</button><span id="boardStatus" role="status"></span></div><div id="boardViewport"><div id="boardSurface"></div><p id="boardEmpty">아이디어를 모아두면 이곳에 펼쳐집니다.</p></div></dialog><a href="privacy.html" class="privacy-link">개인정보처리방침</a><a href="concepts.html" class="concept-link">시안 비교 ↗</a><a href="connections.html" class="connections-link">연결 현황 ↗</a></body></html>

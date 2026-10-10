@@ -108,3 +108,24 @@ body.dark-ui .guy-brand-dot{color:#ffffff}
 body.dark-ui .board-arrows g:focus path:first-child{stroke:#ffffff}
 body.dark-ui .connecting .board-card:hover,body.dark-ui .board-card.connection-start{outline-color:#ffffff}
 body.dark-ui #connectBoard[aria-pressed="true"]{background:#ffffff;color:#111111}
+
+body.dark-ui #mixDialog{width:min(1060px,94vw);padding:28px;overflow:auto}
+.mix-heading>span,.mix-lens{font-size:10px;letter-spacing:1px;color:#aaa}
+.mix-heading h2{font-size:23px;margin:9px 40px 8px 0}
+.mix-heading p{font-size:12px;color:#aaa}
+body.dark-ui #remixIdeas,body.dark-ui .mix-card button,body.dark-ui #copyImagePrompt{background:#181818;border:1px solid #555;color:#fff;padding:9px 12px;border-radius:4px}
+.mix-references{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.mix-reference{display:flex;align-items:center;gap:12px;min-width:0;border:1px solid #333;border-radius:5px;padding:10px}
+.mix-reference img,.mix-reference .reference-text{width:64px;height:64px;min-width:64px;object-fit:cover;font-size:9px;padding:0;overflow:hidden}
+.mix-reference>span{font-size:11px;line-height:1.6;overflow-wrap:anywhere}
+.mix-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mix-card{padding:18px;border:1px solid #444;background:#171717;border-radius:5px;display:flex;flex-direction:column}
+.mix-card h3{font-size:18px;line-height:1.5;margin:12px 0}
+.mix-card p{font-size:12px;line-height:1.8;margin:0 0 12px;color:#ddd}
+.mix-card .mix-visual{color:#aaa;font-size:11px}
+.mix-card button{margin-top:auto}
+body.dark-ui .mix-card button[aria-pressed="true"]{background:#fff;color:#111;border-color:#fff}
+body.dark-ui #mixDialog #ideaResult,body.dark-ui #imagePrompt{width:100%;min-height:150px;padding:12px;color:#eee;background:#0d0d0d;border:1px solid #444;line-height:1.8;font-size:12px}
+.mix-prompt{margin:18px 0}.mix-prompt summary{cursor:pointer;margin-bottom:12px;font-size:12px}
+#promptStatus{color:#aaa;font-size:11px}
+@media(max-width:760px){body.dark-ui #mixDialog{padding:22px 16px}.mix-cards{grid-template-columns:1fr}.mix-references{gap:8px}.mix-reference{display:block}.mix-reference img,.mix-reference .reference-text{display:block;margin-bottom:8px}.mix-heading h2{font-size:20px}}

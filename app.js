@@ -2,7 +2,7 @@ import {createReferenceCache} from './reference-cache.js?v=archive-1';
 import {createFlashlight} from './flashlight.js?v=2';
 import { playGuyIntro } from './guy-intro.js?v=moustache-1';
 import { publicRequest } from './public-services.js?v=deployment-3';
-import { expandPair } from './idea-expansion.js';
+import { expandPair } from './idea-expansion.js?v=mix-1';
 import { wallSize, layoutWall, readingQuota, mixWall } from './idea-wall.js?v=viewport-1';
 import { createMoodboard } from './moodboard.js?v=arrows-20261005';
 import { searchArena } from './arena.js?v=public-channels-1';
@@ -22,7 +22,7 @@ const write = (key, value) => {try{localStorage.setItem(key,JSON.stringify(value
 const state = {keyword:'',query:'',pool:[],seen:[],batch:[],continuation:null,exhausted:false,busy:false,savedView:false,arenaLoaded:false,pinterestPublicLoaded:false,webImagesLoaded:false,designLoaded:false,cosmosLoaded:false,sourceMessages:[],readings:[],readingsLoaded:false,wallTarget:10};
 let saved = read('laya:saved:v1',[]); if(!Array.isArray(saved)) saved=[];
 const histories = read('laya:seen:v1',{});
-let currentPair=[null,null],connectionId=null,activePairSlot=0;
+let currentPair=[null,null],connectionId=null,activePairSlot=0,mixRound=0;
 const text = html => {const doc=new DOMParser().parseFromString(String(html || ''),'text/html');return doc.body.textContent.replace(/\s+/g,' ').trim();};
 const safeURL = url => {try{const u=new URL(String(url).startsWith('//')?'https:'+url:url);return u.protocol==='https:'?u.href:'';}catch{return '';}};
 const node = (tag, content, cls) => {const el=document.createElement(tag);if(content!==undefined)el.textContent=content;if(cls)el.className=cls;return el;};
@@ -56,7 +56,7 @@ function connectImages(){
   $('#pairPanel').hidden=false;$('#connect').textContent='두 장 연결 닫기 ×';renderPairSlots();scheduleWall();
   $('.results').scrollTo({top:0,behavior:'smooth'});
 }
-function resetPairResult(){connectionId=null;$('#combinationResult').hidden=true;$('#connectionStatus').textContent='';}
+function resetPairResult(){connectionId=null;mixRound=0;$('#mixDialog').close();$('#combinationResult').hidden=true;$('#connectionStatus').textContent='';}
 function selectPairItem(item,slot=activePairSlot){
   if(currentPair.some((x,index)=>index!==slot&&x?.id===item.id)){
     $('#pairSelectionStatus').textContent='서로 다른 두 개의 아이디어를 골라주세요.';return;
@@ -182,19 +182,36 @@ function connectionCard(item){
   remove.onclick=()=>{saved=saved.filter(x=>x.id!==item.id);const ok=write('laya:saved:v1',saved);countSaved();render(saved);if(!saved.length)$('#empty').textContent='아직 모아둔 아이디어가 없어요.';if(!ok){$('#status').hidden=false;$('#status').textContent='저장 공간을 사용할 수 없어 이번 화면에서만 변경됩니다.';}};
   card.append(open,remove);return card;
 }
-$('#combineForm').onsubmit=e=>{
-  e.preventDefault();if(!currentPair.every(Boolean))return;
-  const expansion=expandPair(currentPair,[$('#featureA').value,$('#featureB').value]);
-  $('#ideaResult').value=expansion.idea;
-  $('#pairSelectionStatus').textContent='';
+function createIdeaMix(){
+  if(!currentPair.every(Boolean))return;
+  const expansion=expandPair(currentPair,[$('#featureA').value,$('#featureB').value],mixRound);
+  const references=$('#mixReferences');references.replaceChildren();
+  for(const item of currentPair){const ref=node('div',undefined,'mix-reference');ref.append(referencePreview(item),node('span',item.title));references.append(ref);}
+  const cards=$('#mixCards');cards.replaceChildren();
+  const select=(concept,index)=>{
+    connectionId=null;$('#ideaResult').value=concept.idea;$('#imagePrompt').value=concept.prompt;
+    $('#promptStatus').textContent='';$('#connectionStatus').textContent='';$('#saveConnection').textContent='아이디어 모아두기 +';
+    [...cards.children].forEach((card,i)=>card.querySelector('button').setAttribute('aria-pressed',String(i===index)));
+  };
+  expansion.suggestions.forEach((concept,index)=>{
+    const card=node('article',undefined,'mix-card');const choose=node('button',index===0?'선택한 방향':'이 방향으로');choose.type='button';choose.setAttribute('aria-pressed',String(index===0));
+    card.append(node('span',concept.lens,'mix-lens'),node('h3',concept.title),node('p',concept.insight),node('p',concept.visual,'mix-visual'),choose);
+    choose.onclick=()=>{select(concept,index);[...cards.children].forEach((c,i)=>c.querySelector('button').textContent=i===index?'선택한 방향':'이 방향으로');};cards.append(card);
+  });
+  select(expansion.suggestions[0],0);
   const keywords=$('#expansionKeywords');keywords.replaceChildren();
   for(const keyword of expansion.keywords){
-    const button=node('button',keyword+' ↗');button.type='button';
-    button.setAttribute('aria-label',keyword+' 새 이미지 탐색');
-    button.onclick=()=>search(keyword);keywords.append(button);
+    const button=node('button',keyword+' ↗');button.type='button';button.setAttribute('aria-label',keyword+' 새 이미지 탐색');
+    button.onclick=()=>{$('#mixDialog').close();search(keyword);};keywords.append(button);
   }
-  $('#combinationResult').hidden=false;$('#connectionStatus').textContent='';$('#saveConnection').textContent='아이디어 모아두기 +';
-};
+  $('#pairSelectionStatus').textContent='';$('#combinationResult').hidden=false;
+  if(!$('#mixDialog').open)$('#mixDialog').showModal();
+  $('#mixDialog').scrollTop=0;
+}
+$('#combineForm').onsubmit=e=>{e.preventDefault();mixRound=0;createIdeaMix();};
+$('#remixIdeas').onclick=()=>{mixRound++;createIdeaMix();};
+$('#closeMix').onclick=()=>$('#mixDialog').close();
+$('#copyImagePrompt').onclick=async()=>{try{await navigator.clipboard.writeText($('#imagePrompt').value);$('#promptStatus').textContent='복사했어요.';}catch{$('#imagePrompt').focus();$('#imagePrompt').select();$('#promptStatus').textContent='선택된 프롬프트를 복사해주세요.';}};
 $('#ideaResult').oninput=()=>{$('#saveConnection').textContent='아이디어 모아두기 +';$('#connectionStatus').textContent='';};
 $('#saveConnection').onclick=()=>{
   if(!currentPair.every(Boolean))return;const idea=$('#ideaResult').value.trim();if(!idea){$('#ideaResult').focus();return;}
