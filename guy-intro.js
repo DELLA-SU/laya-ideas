@@ -1,4 +1,4 @@
-import {applyEntranceLook} from './entrance-looks.js?v=iris-1';
+import {applyEntranceLook} from './entrance-looks.js?v=moustache-1';
 export function playGuyIntro(){
  const look=applyEntranceLook(),root=document.querySelector('#guyIntro'),canvas=document.querySelector('#introCanvas');
  if(!root||!canvas)return;

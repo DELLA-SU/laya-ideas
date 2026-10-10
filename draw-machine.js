@@ -1,4 +1,4 @@
-import {entranceLook} from './entrance-looks.js?v=iris-1';
+import {entranceLook} from './entrance-looks.js?v=moustache-1';
 export function createDrawMachine(stage,canvas,heading,message){
  const look=entranceLook(),ctx=canvas.getContext('2d'),reduced=matchMedia('(prefers-reduced-motion: reduce)'),off=new Image(),on=new Image();
  const dpr=Math.min(devicePixelRatio||1,2);canvas.width=1672*dpr;canvas.height=941*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);

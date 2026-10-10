@@ -3,14 +3,14 @@ import {createKoreanDisplay,displayTitle,needsKorean,translatePublicKorean} from
 import {createResultHistory,resultSignature} from './result-history.js?v=1';
 import {createReferenceCache} from './reference-cache.js?v=archive-1';
 import {createFlashlight} from './flashlight.js?v=stars-4';
-import { playGuyIntro } from './guy-intro.js?v=iris-1';
+import { playGuyIntro } from './guy-intro.js?v=motion-1';
 import { publicRequest } from './public-services.js?v=ko-sources-1';
 import { createMixStudio } from './mix-studio.js?v=2';
 import {koreanReadings,koreanSourceLinks} from './korean-sources.js?v=1';
 import { wallSize, layoutWall, readingQuota, mixWall } from './idea-wall.js?v=viewport-1';
 import { createMoodboard } from './moodboard.js?v=studio-1';
 import { searchArena } from './arena.js?v=public-channels-1';
-import { createDrawMachine } from './draw-machine.js?v=iris-1';
+import { createDrawMachine } from './draw-machine.js?v=moustache-1';
 import { shuffleItems, uniqueImages, chooseBatch, chooseSourceBatch, chooseIdeaBatch } from './selection.js?v=viewport-1';
 const $ = s => document.querySelector(s);
 const koreanDisplay=createKoreanDisplay({
