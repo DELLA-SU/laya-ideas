@@ -7,6 +7,7 @@ export function createFlashlight(results,grid,toggle,value){
  for(let i=0;i<90;i++){
   const star=document.createElement('i'),sparkle=i%15===0;
   star.className=sparkle?'star-cross':'star-dot';
+  if(sparkle||i%9===0)star.classList.add('star-twinkle');
   star.style.left=((i*37.73+11)%100)+'%';star.style.top=((i*61.37+7)%100)+'%';
   star.style.setProperty('--star-size',(sparkle?14+(i%3)*4:1.1+(i%5)*.3)+'px');
   star.style.setProperty('--star-brightness',String(sparkle?.46:.28+(i%5)*.07));
