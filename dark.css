@@ -67,8 +67,8 @@ body.dark-ui.landing input{font-size:18px}
 .viewport-wall .reading-open h3{font-size:clamp(13px,1.05vw,17px);line-height:1.55}
 .viewport-wall .reading-excerpt{font-size:12px}
 .viewport-wall .connection-thumbnails img{max-height:110px}
-.flashlight-mask{position:fixed;z-index:6;pointer-events:none;--light-x:-1000px;--light-y:-1000px;background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 150px,rgba(0,0,0,.18) 195px,rgba(0,0,0,.72) 247px,rgba(0,0,0,.9) 322px)}
-.flashlight-mask::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--light-x) var(--light-y),rgba(255,255,255,.04) 0px,rgba(255,255,255,.08) 150px,transparent 270px)}
+.flashlight-mask{position:fixed;z-index:6;pointer-events:none;--light-x:-1000px;--light-y:-1000px;background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent var(--light-core,100px),rgba(0,0,0,.18) var(--light-soft,112px),rgba(0,0,0,.72) var(--light-edge,124px),rgba(0,0,0,.9) var(--light-end,136px))}
+.flashlight-mask::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--light-x) var(--light-y),rgba(255,255,255,.04) 0px,rgba(255,255,255,.08) var(--light-core,100px),transparent var(--light-end,136px))}
 @media(max-width:760px){
  body.dark-ui:not(.landing):not(.drawing) .workspace{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);height:100svh}
  body.dark-ui .controls{padding:13px 16px 12px;overflow:hidden}
@@ -88,7 +88,7 @@ body.dark-ui.landing input{font-size:18px}
  body.dark-ui.landing .guy-brand{margin-bottom:12px}
  body.dark-ui.landing .draw-stage,body.dark-ui.drawing .draw-stage{width:160vw;max-width:none;margin-left:calc((100% - 160vw)/2)}
  body.dark-ui.landing .draw-stage canvas{max-height:56svh}
- .flashlight-mask{background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 105px,rgba(0,0,0,.55) 165px,rgba(0,0,0,.9) 240px)}
+ .flashlight-mask{background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent var(--light-core,85px),rgba(0,0,0,.18) var(--light-soft,95px),rgba(0,0,0,.72) var(--light-edge,105px),rgba(0,0,0,.9) var(--light-end,115px))}
 }
 
 body.dark-ui #status{font-size:11px;margin:0 0 9px;min-height:0;color:#bbbbbb}
@@ -244,7 +244,7 @@ body.dark-ui .connection-thumbnails img.studio-saved-preview{max-height:none}
  .studio-workspace{gap:22px}
  .studio-variants canvas{height:88px}
 }
-.flashlight-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 247px,#000 360px);-webkit-mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 247px,#000 360px)}
+.flashlight-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent var(--star-clear,124px),#000 var(--star-return,161px));-webkit-mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent var(--star-clear,124px),#000 var(--star-return,161px))}
 .flashlight-stars i{position:absolute;display:block;opacity:var(--star-brightness);animation:quiet-star var(--star-duration) ease-in-out infinite;animation-delay:var(--star-delay)}
 .flashlight-stars .star-dot{width:var(--star-size);height:var(--star-size);border-radius:50%;background:#fff;box-shadow:0 0 5px #ffffff90}
 .flashlight-stars .star-cross{width:var(--star-size);height:var(--star-size);background:radial-gradient(circle,#fff 0px,#ffffffdd 1px,#ffffff55 2.5px,transparent 6px)}
@@ -255,7 +255,7 @@ body.dark-ui .connection-thumbnails img.studio-saved-preview{max-height:none}
 @keyframes quiet-star{0%,100%{opacity:calc(var(--star-brightness)*.55)}50%{opacity:var(--star-brightness)}}
 @keyframes gentle-sparkle{0%,35%,100%{opacity:calc(var(--star-brightness)*.6);transform:scale(1);filter:drop-shadow(0 0 2px #ffffff44)}50%{opacity:var(--star-brightness);transform:scale(1);filter:drop-shadow(0 0 3px #ffffff66)}58%{opacity:calc(var(--star-brightness)*1.6);transform:scale(1.24);filter:drop-shadow(0 0 6px #ffffffbb)}72%{opacity:calc(var(--star-brightness)*.8);transform:scale(1);filter:drop-shadow(0 0 2px #ffffff44)}}
 @media(prefers-reduced-motion:reduce){.flashlight-stars i{animation:none;opacity:var(--star-brightness)}}
-@media(max-width:760px){.flashlight-stars{mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 165px,#000 270px);-webkit-mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 165px,#000 270px)}}
+@media(max-width:760px){.flashlight-stars{mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent var(--star-clear,105px),#000 var(--star-return,140px));-webkit-mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent var(--star-clear,105px),#000 var(--star-return,140px))}}
 body.dark-ui.landing .draw-stage,body.dark-ui.drawing .draw-stage{width:min(820px,90vw);margin:0 auto 12px;max-height:48svh}
 body.dark-ui.landing .draw-stage canvas,body.dark-ui.drawing .draw-stage canvas{max-height:48svh;object-fit:contain}
 @media(max-width:760px){body.dark-ui.landing .draw-stage,body.dark-ui.drawing .draw-stage{width:110vw;max-width:none;margin-left:calc((100% - 110vw)/2);max-height:42svh}body.dark-ui.landing .draw-stage canvas,body.dark-ui.drawing .draw-stage canvas{max-height:42svh}}
