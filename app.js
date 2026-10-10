@@ -1,8 +1,9 @@
+import {installMotion} from './motion.js?v=1';
 import {createKoreanDisplay,displayTitle,needsKorean,translatePublicKorean} from './korean-display.js?v=ko-1';
 import {createResultHistory,resultSignature} from './result-history.js?v=1';
 import {createReferenceCache} from './reference-cache.js?v=archive-1';
 import {createFlashlight} from './flashlight.js?v=stars-4';
-import { playGuyIntro } from './guy-intro.js?v=moustache-1';
+import { playGuyIntro } from './guy-intro.js?v=motion-1';
 import { publicRequest } from './public-services.js?v=ko-sources-1';
 import { createMixStudio } from './mix-studio.js?v=2';
 import {koreanReadings,koreanSourceLinks} from './korean-sources.js?v=1';
@@ -21,6 +22,7 @@ const resultHistory=createResultHistory({getItem:k=>localStorage.getItem(k),setI
 let viewingHistory=false;
 const flashlight=createFlashlight($('.results'),$('#grid'),$('#flashlightToggle'),$('#flashlightValue'));
 const machine=createDrawMachine($('#drawStage'),$('#drawCanvas'),$('#drawHeading'),$('#drawMessage'));
+installMotion();
 playGuyIntro();
 const pinterestPaused=window.PINTEREST_PAUSED===true;
 const pinterestEnabled=!pinterestPaused&&window.REFERENCE_PROVIDER==='pinterest';

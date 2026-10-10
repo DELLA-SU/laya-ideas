@@ -1,0 +1,19 @@
+:root{--motion-ease:cubic-bezier(.22,1,.36,1);--motion-settle:cubic-bezier(.16,1,.3,1);--motion-fast:180ms;--motion-panel:320ms}
+button,input,textarea,select,a{transition:background-color var(--motion-fast) ease,color var(--motion-fast) ease,border-color var(--motion-fast) ease,box-shadow var(--motion-fast) ease,opacity var(--motion-fast) ease,scale 260ms var(--motion-settle)}
+button:not(:disabled):not(.board-handle):not(.image-open):not(.reading-open):not(.connection-open):active{scale:.975;transition-duration:90ms}
+input:focus-visible,textarea:focus-visible,select:focus-visible{box-shadow:0 0 0 3px #ffffff12}
+.image-open img{transition:scale 420ms var(--motion-ease)}
+@media(hover:hover){.image-open:hover img{scale:1.025}.studio-variants button:hover{border-color:#aaa}.close:hover{background:#ffffff18!important}}
+.pair-slot,.studio-variants button,.studio-source,.board-card{transition:border-color var(--motion-fast) ease,background-color var(--motion-fast) ease,box-shadow var(--motion-fast) ease}
+.save.active{animation:save-settle 260ms var(--motion-settle)}
+@keyframes save-settle{0%{scale:.85}55%{scale:1.06}100%{scale:1}}
+/* Native discrete transitions keep focus and dismissal handled by the dialog. */
+dialog{opacity:0;transform:translateY(12px) scale(.975);transition:opacity 220ms ease,transform var(--motion-panel) var(--motion-ease),display 320ms allow-discrete,overlay 320ms allow-discrete}
+dialog[open]{opacity:1;transform:translateY(0) scale(1)}
+dialog::backdrop{opacity:0;transition:opacity 220ms ease,display 320ms allow-discrete,overlay 320ms allow-discrete}
+dialog[open]::backdrop{opacity:1}
+@starting-style{dialog[open]{opacity:0;transform:translateY(14px) scale(.975)}dialog[open]::backdrop{opacity:0}}
+details[open]>:not(summary){animation:detail-enter 260ms var(--motion-ease)}
+@keyframes detail-enter{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+body:not(.dark-ui)>:is(h1,h2,p,nav,ul,form){animation:detail-enter 350ms var(--motion-ease)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.image-open:hover img{scale:1}button:active{scale:1!important}dialog,dialog[open]{transform:none}.flashlight-stars i{opacity:var(--star-brightness)}}
