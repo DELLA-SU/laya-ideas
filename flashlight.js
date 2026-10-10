@@ -10,7 +10,7 @@ export function createFlashlight(results,grid,toggle,value){
   if(sparkle||i%9===0)star.classList.add('star-twinkle');
   star.style.left=((i*37.73+11)%100)+'%';star.style.top=((i*61.37+7)%100)+'%';
   star.style.setProperty('--star-size',(sparkle?14+(i%3)*4:1.1+(i%5)*.3)+'px');
-  star.style.setProperty('--star-brightness',String(sparkle?.46:.28+(i%5)*.07));
+  star.style.setProperty('--star-brightness',String(sparkle?.68:.38+(i%5)*.07));
   star.style.setProperty('--star-duration',(8+i%7)+'s');
   star.style.setProperty('--star-delay',-(i%13)+'s');stars.append(star);
  }mask.append(stars);

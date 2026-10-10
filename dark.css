@@ -246,14 +246,14 @@ body.dark-ui .connection-thumbnails img.studio-saved-preview{max-height:none}
 }
 .flashlight-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 247px,#000 360px);-webkit-mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 247px,#000 360px)}
 .flashlight-stars i{position:absolute;display:block;opacity:var(--star-brightness);animation:quiet-star var(--star-duration) ease-in-out infinite;animation-delay:var(--star-delay)}
-.flashlight-stars .star-dot{width:var(--star-size);height:var(--star-size);border-radius:50%;background:#fff;box-shadow:0 0 3px #ffffff45}
-.flashlight-stars .star-cross{width:var(--star-size);height:var(--star-size);background:radial-gradient(circle,#fff 0px,#ffffffaa .8px,#ffffff22 2px,transparent 5px)}
-.flashlight-stars .star-cross::before,.flashlight-stars .star-cross::after{content:'';position:absolute;left:50%;top:50%;background:linear-gradient(transparent,#ffffffbb,transparent);transform:translate(-50%,-50%)}
+.flashlight-stars .star-dot{width:var(--star-size);height:var(--star-size);border-radius:50%;background:#fff;box-shadow:0 0 5px #ffffff90}
+.flashlight-stars .star-cross{width:var(--star-size);height:var(--star-size);background:radial-gradient(circle,#fff 0px,#ffffffdd 1px,#ffffff55 2.5px,transparent 6px)}
+.flashlight-stars .star-cross::before,.flashlight-stars .star-cross::after{content:'';position:absolute;left:50%;top:50%;background:linear-gradient(transparent,#ffffffee,transparent);transform:translate(-50%,-50%)}
 .flashlight-stars .star-cross::before{width:1px;height:100%}
-.flashlight-stars .star-cross::after{width:100%;height:1px;background:linear-gradient(90deg,transparent,#ffffffbb,transparent)}
+.flashlight-stars .star-cross::after{width:100%;height:1px;background:linear-gradient(90deg,transparent,#ffffffee,transparent)}
 .flashlight-stars .star-twinkle{animation-name:gentle-sparkle;transform-origin:center}
 @keyframes quiet-star{0%,100%{opacity:calc(var(--star-brightness)*.55)}50%{opacity:var(--star-brightness)}}
-@keyframes gentle-sparkle{0%,35%,100%{opacity:calc(var(--star-brightness)*.6);transform:scale(1)}50%{opacity:var(--star-brightness);transform:scale(1)}58%{opacity:calc(var(--star-brightness)*1.45);transform:scale(1.16)}72%{opacity:calc(var(--star-brightness)*.75);transform:scale(1)}}
+@keyframes gentle-sparkle{0%,35%,100%{opacity:calc(var(--star-brightness)*.6);transform:scale(1);filter:drop-shadow(0 0 2px #ffffff44)}50%{opacity:var(--star-brightness);transform:scale(1);filter:drop-shadow(0 0 3px #ffffff66)}58%{opacity:calc(var(--star-brightness)*1.6);transform:scale(1.24);filter:drop-shadow(0 0 6px #ffffffbb)}72%{opacity:calc(var(--star-brightness)*.8);transform:scale(1);filter:drop-shadow(0 0 2px #ffffff44)}}
 @media(prefers-reduced-motion:reduce){.flashlight-stars i{animation:none;opacity:var(--star-brightness)}}
 @media(max-width:760px){.flashlight-stars{mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 165px,#000 270px);-webkit-mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 165px,#000 270px)}}
 body.dark-ui.landing .draw-stage,body.dark-ui.drawing .draw-stage{width:min(820px,90vw);margin:0 auto 12px;max-height:48svh}
@@ -273,3 +273,6 @@ body.dark-ui .results:has(#pairPanel:not([hidden])) .slot-title{white-space:nowr
 #pairSelectionStatus{font-size:10px;line-height:1.4;margin:8px 0 0;color:#aaa}
 body.dark-ui .optional-features[open]{max-height:160px;overflow:auto;padding-right:6px}
 @media(max-width:760px){body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-images{grid-template-columns:repeat(4,minmax(0,1fr))}body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-slot{padding:5px}body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-slot img,body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-slot .reference-text{height:48px;max-height:48px}.clear-pair{width:19px;height:19px;font-size:15px}.slot-index{font-size:11px}}
+
+/* Keep the character's cool bulb light within the black interface. */
+body.dark-ui :is(#introCanvas,#drawCanvas){filter:hue-rotate(175deg) saturate(.55)}

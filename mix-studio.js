@@ -1,4 +1,4 @@
-import {PURPOSES,paletteFromPixels,layoutFor,newProject,normalizeProject,productionBrief} from './mix-studio-model.js?v=connect-4';
+import {PURPOSES,paletteFromPixels,layoutFor,newProject,normalizeProject,productionBrief} from './mix-studio-model.js?v=rounding-1';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const control=(label,input)=>{const wrap=el('label',undefined,'studio-field');wrap.append(el('span',label),input);return wrap;};
 const input=(type,label,value)=>{const n=el('input');n.type=type;n.setAttribute('aria-label',label);n.value=value;return n;};
@@ -8,8 +8,12 @@ function wrapText(ctx,text,x,y,maxWidth,size,maxLines=3,lineHeight=1.3){
  for(const char of String(text||'')){if(char==='\n'||(ctx.measureText(line+char).width>maxWidth&&line)){lines.push(line);line=char==='\n'?'':char;}else line+=char;}
  if(line)lines.push(line);lines=lines.slice(0,maxLines);for(let i=0;i<lines.length;i++)ctx.fillText(lines[i],x,y+i*size*lineHeight);return lines.length*size*lineHeight;
 }
-function imageLayer(ctx,img,rect,source){
- const [x,y,w,h]=rect;ctx.save();ctx.beginPath();if(source.shape==='circle')ctx.ellipse(x+w/2,y+h/2,w/2,h/2,0,0,Math.PI*2);else ctx.rect(x,y,w,h);ctx.clip();
+function roundedPath(ctx,rect,radius=0){
+ const [x,y,w,h]=rect,r=Math.min(Math.max(0,radius),w/2,h/2);ctx.beginPath();
+ ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+function imageLayer(ctx,img,rect,source,radius=0){
+ const [x,y,w,h]=rect;ctx.save();ctx.beginPath();if(source.shape==='circle')ctx.ellipse(x+w/2,y+h/2,w/2,h/2,0,0,Math.PI*2);else roundedPath(ctx,rect,radius);ctx.clip();
  const scale=Math.max(w/img.width,h/img.height)*source.zoom,iw=img.width*scale,ih=img.height*scale;
  const ox=(iw-w)/2*(1+source.x/100),oy=(ih-h)/2*(1+source.y/100);ctx.drawImage(img,x-ox,y-oy,iw,ih);ctx.restore();
 }
@@ -22,19 +26,19 @@ function patternLayer(ctx,rect,pattern,color){
 export function drawDraft(canvas,project,pair,assets,variant=project.variant){
  const {width:w,height:h}=PURPOSES[project.purpose];canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d');ctx.fillStyle=project.background;ctx.fillRect(0,0,w,h);
  if(project.purpose==='package'){ctx.strokeStyle=project.ink;ctx.globalAlpha=.4;ctx.lineWidth=2;ctx.strokeRect(w*.19,h*.08,w*.62,h*.84);ctx.globalAlpha=1;}
- const layout=layoutFor(project.purpose,variant,pair.length);
+ const layout=layoutFor(project.purpose,variant,pair.length),radius=project.cornerRadius||0;
  project.sources.forEach((s,i)=>{const r=layout[i].map((v,j)=>v*(j%2?h:w));patternLayer(ctx,[r[0]-18,r[1]-18,r[2]+36,r[3]+36],s.pattern,project.accent);
   if(!s.include)return;
-  if(assets[i]?.image){imageLayer(ctx,assets[i].image,r,s);return;}
-  if(pair[i].kind==='reading'){ctx.fillStyle=project.accent;ctx.fillRect(...r);ctx.fillStyle=project.ink;const size=Math.min(76,r[2]/7);wrapText(ctx,s.useExcerpt?s.excerpt:pair[i].title,r[0]+25,r[1]+30,r[2]-50,size,Math.floor((r[3]-60)/(size*1.3)));return;}
-  ctx.fillStyle='#bdbbb5';ctx.fillRect(...r);ctx.fillStyle='#333';wrapText(ctx,`${i+1}번 이미지\n파일을 선택해주세요`,r[0]+25,r[1]+25,r[2]-50,28,3);
+  if(assets[i]?.image){imageLayer(ctx,assets[i].image,r,s,radius);return;}
+  if(pair[i].kind==='reading'){ctx.fillStyle=project.accent;roundedPath(ctx,r,radius);ctx.fill();ctx.fillStyle=project.ink;const size=Math.min(76,r[2]/7);wrapText(ctx,s.useExcerpt?s.excerpt:pair[i].title,r[0]+25,r[1]+30,r[2]-50,size,Math.floor((r[3]-60)/(size*1.3)));return;}
+  ctx.fillStyle='#bdbbb5';roundedPath(ctx,r,radius);ctx.fill();ctx.fillStyle='#333';wrapText(ctx,`${i+1}번 이미지\n파일을 선택해주세요`,r[0]+25,r[1]+25,r[2]-50,28,3);
  });
  ctx.fillStyle=project.ink;
  const web=project.purpose==='web',pkg=project.purpose==='package',tx=w*(pkg?.23:.07),ty=h*(web?.26:pkg?.12:.075),maxW=w*(web?.43:pkg?.55:.84);
  const size=web?78:pkg?54:project.purpose==='poster'?76:64;
  const titleHeight=wrapText(ctx,project.title,tx,ty,maxW,size,web?4:2);
  if(project.subtitle){ctx.font=`400 ${Math.round(size*.28)}px Arial`;wrapText(ctx,project.subtitle,tx,ty+titleHeight+18,maxW,size*.28,web?5:3,1.5);}
- if(web){ctx.font='600 26px Arial';ctx.fillText(project.title.slice(0,15),w*.07,h*.07);ctx.font='400 20px Arial';ctx.fillText('소개     이야기     더 알아보기',w*.62,h*.07);ctx.fillStyle=project.accent;ctx.fillRect(w*.07,h*.74,w*.27,h*.09);ctx.fillStyle=project.ink;ctx.font='600 25px Arial';ctx.fillText('더 알아보기',w*.1,h*.765);}
+ if(web){ctx.font='600 26px Arial';ctx.fillText(project.title.slice(0,15),w*.07,h*.07);ctx.font='400 20px Arial';ctx.fillText('소개     이야기     더 알아보기',w*.62,h*.07);ctx.fillStyle=project.accent;roundedPath(ctx,[w*.07,h*.74,w*.27,h*.09],radius);ctx.fill();ctx.fillStyle=project.ink;ctx.font='600 25px Arial';ctx.fillText('더 알아보기',w*.1,h*.765);}
  else{ctx.fillStyle=project.accent;ctx.fillRect(w*.07,h*.945,w*.12,5);}
  return canvas;
 }
@@ -79,6 +83,7 @@ export function createMixStudio(root,{save}){
   const row=el('div',undefined,'studio-variants');variants=[];for(let i=0;i<3;i++){const b=button('',()=>{project.variant=i;render();}),c=el('canvas'),label=el('span');c.setAttribute('aria-hidden','true');b.setAttribute('aria-label',`시안 ${i+1} 선택`);b.append(c,label);variants.push({button:b,canvas:c,label});row.append(b);}preview.append(row);workspace.append(preview);
   const editor=el('div',undefined,'studio-editor');editor.append(el('h3','바로 수정하기'));const title=input('text','시안 제목',project.title);title.maxLength=60;editor.append(control('제목',bind(title,n=>project.title=n.value)));const subtitle=el('textarea');subtitle.rows=3;subtitle.maxLength=180;subtitle.value=project.subtitle;subtitle.setAttribute('aria-label','시안 보조 문구');editor.append(control('보조 문구',bind(subtitle,n=>project.subtitle=n.value)));
   const colors=el('div',undefined,'studio-colors');for(const [key,label] of [['background','바탕색'],['ink','글자색'],['accent','강조색']])colors.append(control(label,bind(input('color',label,project[key]),n=>project[key]=n.value)));editor.append(colors);
+  const rounding=input('range','모서리 라운딩',project.cornerRadius||0);rounding.min=0;rounding.max=80;rounding.step=4;const roundingLabel=control('모서리 라운딩',rounding),roundingValue=el('output',`${project.cornerRadius||0}px`);roundingLabel.append(roundingValue);editor.append(roundingLabel);bind(rounding,n=>{project.cornerRadius=Number(n.value);roundingValue.textContent=`${n.value}px`;});
   editor.append(button('배치 바꾸기',()=>{project.variant=(project.variant+1)%3;render();}));
   const remix=el('select');remix.setAttribute('aria-label','다시 믹스할 요소');for(const [value,text] of [['layout','배치만 바꾸기'],['colors','색만 바꾸기']]){const o=el('option',text);o.value=value;remix.append(o);}editor.append(control('다시 믹스할 요소',remix),button('선택한 요소 다시 믹스',()=>{if(remix.value==='layout')project.variant=(project.variant+1)%3;else{const colors=assets.flatMap(a=>a.palette||[]);const index=colors.indexOf(project.accent);project.accent=colors[(index+1)%colors.length]||'#ffffff';root.querySelector('[aria-label="강조색"]').value=project.accent;}render();}));
   const details=el('details');details.append(el('summary','구체적인 제작안과 출처'));brief=el('textarea');brief.readOnly=true;brief.rows=7;brief.setAttribute('aria-label','시안 제작안');details.append(brief);for(const r of pair){const a=el('a',r.title+' · 원문');a.href=r.source;a.target='_blank';a.rel='noopener noreferrer';details.append(a);}editor.append(details);workspace.append(editor);root.append(workspace);
