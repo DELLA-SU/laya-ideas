@@ -10,13 +10,13 @@ const associations = [
   [/water|sea|ocean|바다|물결/i, ['흐름', '반사', '리듬']],
   [/poster|graphic|type|포스터|그래픽|문자/i, ['대비', '배치', '시각 언어']],
 ];
-function subject(item) {
-  return String(item.title || item.description || '새로운 형태')
-    .replace(/\([^)]*\)|\b\d+\b|\.(jpg|png|jpeg)$/gi, '')
-    .replace(/[_·]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 55) || '새로운 형태';
+function subject(item,index) {
+  return String(item.translation==='unavailable'?'':item.title || item.description || '새로운 형태').replace(/[A-Za-z\u00c0-\u024f\u3040-\u30ff\u3400-\u9fff\u0400-\u04ff][A-Za-z0-9\u00c0-\u024f\u3040-\u30ff\u3400-\u9fff\u0400-\u04ff’".:-]*/gu, '')
+    .replace(/\([^)]*\)|\b\d{4,}\b|\.(jpg|png|jpeg)$/gi, '')
+    .replace(/[_·]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 55) || concepts(item)[0] || `${index+1}번 자료`;
 }
 function concepts(item) {
-  const metadata = [item.title, item.description].filter(Boolean).join(' ');
+  const metadata = [item.originalTitle,item.originalDescription,item.title,item.description].filter(Boolean).join(' ');
   return [...new Set(associations.filter(([pattern]) => pattern.test(metadata)).flatMap(([, words]) => words))];
 }
 function withParticle(word, particles) {
@@ -27,8 +27,8 @@ function withParticle(word, particles) {
 export function expandPair(pair, features = [], remix = 0) {
   if (pair.length !== 2 || pair.some(item => !item)) throw new Error('두 자료를 선택해주세요.');
   const subjects = pair.map(subject);
-  const a = features[0]?.trim() || concepts(pair[0])[0] || subjects[0];
-  const b = features[1]?.trim() || concepts(pair[1]).find(word => word !== a) || subjects[1];
+  const a = features[0]?.trim().replace(/[A-Za-z]+/g,'').trim() || concepts(pair[0])[0] || subjects[0];
+  const b = features[1]?.trim().replace(/[A-Za-z]+/g,'').trim() || concepts(pair[1]).find(word => word !== a) || subjects[1];
   const keywords = [...new Set([
     `${a} ${b}`, `${a} 패턴`, `${b} 공간`,
     `${subjects[0]} ${subjects[1]}`, `${b} 질감`, `${a} 시각 디자인`,

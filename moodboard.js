@@ -1,4 +1,4 @@
-export function createMoodboard(getSaved){
+export function createMoodboard(getSaved,localize=async item=>item){
   const $=s=>document.querySelector(s),surface=$('#boardSurface');
   let data;try{data=JSON.parse(localStorage.getItem('laya:board:v1'))||{};}catch{data={};}
   data.positions=data.positions||{};data.notes=Array.isArray(data.notes)?data.notes:[];
@@ -84,7 +84,7 @@ export function createMoodboard(getSaved){
     });
     $('#boardEmpty').hidden=items.length+data.notes.length>0;drawArrows();
   }
-  $('#boardToggle').onclick=()=>{render();$('#boardDialog').showModal();setConnecting(false);drawArrows();};
+  $('#boardToggle').onclick=async()=>{const items=getSaved();$('#boardToggle').disabled=true;try{await Promise.all(items.flatMap(item=>[item,...(item.references||[])]).map(localize));}finally{$('#boardToggle').disabled=false;}render();$('#boardDialog').showModal();setConnecting(false);drawArrows();};
   $('#closeBoard').onclick=()=>{$('#boardDialog').close();setConnecting(false);};
   $('#connectBoard').onclick=()=>setConnecting(!connecting);
   $('#deleteBoardArrow').onclick=()=>{data.arrows=data.arrows.filter(a=>a.id!==selectedArrow);persist();selectedArrow=null;$('#deleteBoardArrow').disabled=true;drawArrows();};
