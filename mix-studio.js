@@ -1,4 +1,4 @@
-import {PURPOSES,paletteFromPixels,layoutFor,newProject,normalizeProject,productionBrief} from './mix-studio-model.js?v=2';
+import {PURPOSES,paletteFromPixels,layoutFor,newProject,normalizeProject,productionBrief} from './mix-studio-model.js?v=connect-4';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const control=(label,input)=>{const wrap=el('label',undefined,'studio-field');wrap.append(el('span',label),input);return wrap;};
 const input=(type,label,value)=>{const n=el('input');n.type=type;n.setAttribute('aria-label',label);n.value=value;return n;};
@@ -22,7 +22,7 @@ function patternLayer(ctx,rect,pattern,color){
 export function drawDraft(canvas,project,pair,assets,variant=project.variant){
  const {width:w,height:h}=PURPOSES[project.purpose];canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d');ctx.fillStyle=project.background;ctx.fillRect(0,0,w,h);
  if(project.purpose==='package'){ctx.strokeStyle=project.ink;ctx.globalAlpha=.4;ctx.lineWidth=2;ctx.strokeRect(w*.19,h*.08,w*.62,h*.84);ctx.globalAlpha=1;}
- const layout=layoutFor(project.purpose,variant);
+ const layout=layoutFor(project.purpose,variant,pair.length);
  project.sources.forEach((s,i)=>{const r=layout[i].map((v,j)=>v*(j%2?h:w));patternLayer(ctx,[r[0]-18,r[1]-18,r[2]+36,r[3]+36],s.pattern,project.accent);
   if(!s.include)return;
   if(assets[i]?.image){imageLayer(ctx,assets[i].image,r,s);return;}
@@ -41,7 +41,7 @@ export function drawDraft(canvas,project,pair,assets,variant=project.variant){
 export function createMixStudio(root,{save}){
  let pair=[],project,assets=[],generation=0,main,variants,notice,brief,saveButton,exportButton,uiSources=[];
  let renderFrame=0,savedSignature='';
- const render=()=>{if(!project||!main)return;drawDraft(main,project,pair,assets);variants.forEach((v,i)=>{drawDraft(v.canvas,project,pair,assets,i);v.button.setAttribute('aria-pressed',String(i===project.variant));v.label.textContent=(i===project.variant?'선택한 안 · ':'변형안 · ')+['겹치기','넓게 펼치기','나란히'][i];});brief.value=productionBrief(project,pair);saveButton.textContent=savedSignature===JSON.stringify(project)?'무드보드에 추가됨':'무드보드에 추가';const blocked=project.sources.some((s,i)=>s.include&&pair[i].kind!=='reading'&&!assets[i]?.image);const pending=project.sources.some((s,i)=>s.include&&assets[i]?.loading);exportButton.disabled=blocked;saveButton.disabled=blocked||savedSignature===JSON.stringify(project);notice.textContent=pending?'이미지와 대표색을 준비하고 있어요.':blocked?'편집이 제한된 이미지가 있어요. 해당 파일을 선택하거나 이미지 사용을 꺼주세요.':'';};
+ const render=()=>{if(!project||!main)return;drawDraft(main,project,pair,assets);variants.forEach((v,i)=>{drawDraft(v.canvas,project,pair,assets,i);v.button.setAttribute('aria-pressed',String(i===project.variant));v.label.textContent=(i===project.variant?'선택한 안 · ':'변형안 · ')+['크게 연결','넓게 펼치기',pair.length>2?'격자로':'나란히'][i];});brief.value=productionBrief(project,pair);saveButton.textContent=savedSignature===JSON.stringify(project)?'무드보드에 추가됨':'무드보드에 추가';const blocked=project.sources.some((s,i)=>s.include&&pair[i].kind!=='reading'&&!assets[i]?.image);const pending=project.sources.some((s,i)=>s.include&&assets[i]?.loading);exportButton.disabled=blocked;saveButton.disabled=blocked||savedSignature===JSON.stringify(project);notice.textContent=pending?'이미지와 대표색을 준비하고 있어요.':blocked?'편집이 제한된 이미지가 있어요. 해당 파일을 선택하거나 이미지 사용을 꺼주세요.':'';};
  const schedule=()=>{cancelAnimationFrame(renderFrame);renderFrame=requestAnimationFrame(render);};
  function bind(n,fn){n.oninput=()=>{fn(n);schedule();};return n;}
  function button(text,fn){const b=el('button',text);b.type='button';b.onclick=fn;return b;}
@@ -72,7 +72,7 @@ export function createMixStudio(root,{save}){
   const note=input('text',`${i+1}번 가져올 요소`,s.note);note.maxLength=180;note.placeholder=item.kind==='reading'?'예: 원문에서 확인한 주장과 근거':'예: 줄무늬, 둥근 윤곽, 비대칭 구도';box.append(control('가져올 요소 · 직접 확인',bind(note,n=>s.note=n.value)));return box;
  }
  function build(){
-  root.replaceChildren();uiSources=[];const heading=el('header',undefined,'studio-heading');heading.append(el('small','아이디어 믹스 · 제작실'),el('h2','두 자료로 만드는 디자인 초안'));heading.lastChild.id='mixHeading';root.append(heading);
+  root.replaceChildren();uiSources=[];const heading=el('header',undefined,'studio-heading');heading.append(el('small','아이디어 믹스 · 제작실'),el('h2',`${pair.length}개 자료로 만드는 디자인 초안`));heading.lastChild.id='mixHeading';root.append(heading);
   const purposes=el('div',undefined,'studio-purposes');purposes.setAttribute('role','group');purposes.setAttribute('aria-label','제작 목적');for(const [key,v] of Object.entries(PURPOSES)){const b=button(v.name,()=>{project.purpose=key;purposes.querySelectorAll('button').forEach(n=>n.setAttribute('aria-pressed',String(n===b)));render();});b.setAttribute('aria-pressed',String(project.purpose===key));purposes.append(b);}root.append(purposes);
   const sourceDetails=el('details',undefined,'studio-elements');sourceDetails.open=false;sourceDetails.append(el('summary','1. 가져올 요소 고르기'));const refs=el('div',undefined,'studio-sources');pair.forEach((item,i)=>refs.append(sourceCard(item,i)));sourceDetails.append(refs);root.append(sourceDetails);
   const workspace=el('section',undefined,'studio-workspace');const preview=el('div',undefined,'studio-preview');preview.append(el('h3','2. 시안 고르고 다듬기'));main=el('canvas');main.setAttribute('aria-label','선택한 디자인 초안');main.setAttribute('role','img');preview.append(main);
@@ -89,6 +89,7 @@ export function createMixStudio(root,{save}){
  return {
   invalidate(){generation++;project=null;},
   async open(items,keyword,features=[],restored){
+   if(items.length<2||items.length>4)throw new Error('2~4개의 자료를 선택해주세요.');
    const keep=project&&pair.length===items.length&&pair.every((r,i)=>r.id===items[i].id)&&!restored;
    pair=items.map(r=>({...r}));const token=++generation;project=restored?normalizeProject(restored,pair):keep?project:newProject(pair,keyword,features);assets=pair.map(item=>({loading:item.kind!=='reading'}));savedSignature='';build();
    await Promise.all(pair.map((item,i)=>item.kind==='reading'?Promise.resolve():assetFor(i,project.sources[i].localImage||item.image,token)));

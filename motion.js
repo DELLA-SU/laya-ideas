@@ -13,6 +13,14 @@ export function installMotion(){
    additions.forEach((node,index)=>enter(node,Math.min(index*18,72)));
   }).observe(root,{childList:true});
  }
+ const slots=document.getElementById('pairImages');
+ let slotKeys=[];
+ if(slots)new MutationObserver(()=>{
+  const next=[...slots.children].map(slot=>slot.dataset.referenceId||'');
+  [...slots.children].forEach((slot,i)=>{if(next[i]&&next[i]!==slotKeys[i]){
+   if(!reduced.matches){const animation=slot.animate([{opacity:.4,transform:'translateY(6px) scale(.94)'},{opacity:1,transform:'translateY(0) scale(1)'}],{duration:420,easing:ease});active.add(animation);animation.finished.catch(()=>{}).finally(()=>active.delete(animation));}
+  }});slotKeys=next;
+ }).observe(slots,{childList:true});
  const panel=document.getElementById('pairPanel');
  if(panel)new MutationObserver(()=>{if(!panel.hidden)enter(panel,0,8);}).observe(panel,{attributes:true,attributeFilter:['hidden']});
  let drawing=document.body.classList.contains('drawing'),intro=document.body.classList.contains('intro-playing');
@@ -25,7 +33,10 @@ export function installMotion(){
  const studio=document.getElementById('mixStudio');
  if(studio)studio.addEventListener('click',event=>{
   const button=event.target.closest('button');
-  if(button?.closest('.studio-purposes,.studio-variants'))enter(studio.querySelector('.studio-preview>canvas'),0,4);
+  if(button&&(button.closest('.studio-purposes,.studio-variants')||['배치 바꾸기','선택한 요소 다시 믹스'].includes(button.textContent)))enter(studio.querySelector('.studio-preview>canvas'),0,6);
  });
+ if(studio)studio.addEventListener('toggle',event=>{
+  if(event.target.matches('.studio-elements')&&event.target.open)studio.querySelectorAll('.studio-source').forEach((source,i)=>enter(source,i*30,9));
+ },true);
  reduced.addEventListener('change',()=>{if(reduced.matches){active.forEach(animation=>animation.cancel());active.clear();}});
 }

@@ -16,4 +16,12 @@ dialog[open]::backdrop{opacity:1}
 details[open]>:not(summary){animation:detail-enter 260ms var(--motion-ease)}
 @keyframes detail-enter{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 body:not(.dark-ui)>:is(h1,h2,p,nav,ul,form){animation:detail-enter 350ms var(--motion-ease)}
+/* Soft depth and a quiet response to focus, without delaying the dark mask. */
+dialog::backdrop{backdrop-filter:blur(8px)}
+.pair-slot:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.pair-slot.selected-slot{box-shadow:0 0 0 1px #ffffff22,inset 0 0 20px #ffffff04}
+.studio-purposes button,.studio-variants button{transition:background-color 200ms ease,border-color 200ms ease,box-shadow 300ms var(--motion-settle),scale 280ms var(--motion-settle)}
+.studio-variants button[aria-pressed="true"]{box-shadow:0 0 0 1px #ffffff25}
+@media(hover:hover){.studio-variants button:hover{scale:1.015}.pair-slot:hover{background-color:#202020!important}.tool-group button:hover .tool-icon{transform:translateX(2px)}}
+.tool-icon{transition:transform 280ms var(--motion-settle)}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.image-open:hover img{scale:1}button:active{scale:1!important}dialog,dialog[open]{transform:none}.flashlight-stars i{opacity:var(--star-brightness)}}

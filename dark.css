@@ -67,8 +67,8 @@ body.dark-ui.landing input{font-size:18px}
 .viewport-wall .reading-open h3{font-size:clamp(13px,1.05vw,17px);line-height:1.55}
 .viewport-wall .reading-excerpt{font-size:12px}
 .viewport-wall .connection-thumbnails img{max-height:110px}
-.flashlight-mask{position:fixed;z-index:6;pointer-events:none;--light-x:-1000px;--light-y:-1000px;background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 100px,rgba(0,0,0,.18) 130px,rgba(0,0,0,.72) 165px,rgba(0,0,0,.9) 215px)}
-.flashlight-mask::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--light-x) var(--light-y),rgba(255,255,255,.04) 0px,rgba(255,255,255,.08) 100px,transparent 180px)}
+.flashlight-mask{position:fixed;z-index:6;pointer-events:none;--light-x:-1000px;--light-y:-1000px;background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 150px,rgba(0,0,0,.18) 195px,rgba(0,0,0,.72) 247px,rgba(0,0,0,.9) 322px)}
+.flashlight-mask::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--light-x) var(--light-y),rgba(255,255,255,.04) 0px,rgba(255,255,255,.08) 150px,transparent 270px)}
 @media(max-width:760px){
  body.dark-ui:not(.landing):not(.drawing) .workspace{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);height:100svh}
  body.dark-ui .controls{padding:13px 16px 12px;overflow:hidden}
@@ -88,7 +88,7 @@ body.dark-ui.landing input{font-size:18px}
  body.dark-ui.landing .guy-brand{margin-bottom:12px}
  body.dark-ui.landing .draw-stage,body.dark-ui.drawing .draw-stage{width:160vw;max-width:none;margin-left:calc((100% - 160vw)/2)}
  body.dark-ui.landing .draw-stage canvas{max-height:56svh}
- .flashlight-mask{background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 70px,rgba(0,0,0,.55) 110px,rgba(0,0,0,.9) 160px)}
+ .flashlight-mask{background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 105px,rgba(0,0,0,.55) 165px,rgba(0,0,0,.9) 240px)}
 }
 
 body.dark-ui #status{font-size:11px;margin:0 0 9px;min-height:0;color:#bbbbbb}
@@ -244,7 +244,7 @@ body.dark-ui .connection-thumbnails img.studio-saved-preview{max-height:none}
  .studio-workspace{gap:22px}
  .studio-variants canvas{height:88px}
 }
-.flashlight-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 165px,#000 240px);-webkit-mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 165px,#000 240px)}
+.flashlight-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden;mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 247px,#000 360px);-webkit-mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 247px,#000 360px)}
 .flashlight-stars i{position:absolute;display:block;opacity:var(--star-brightness);animation:quiet-star var(--star-duration) ease-in-out infinite;animation-delay:var(--star-delay)}
 .flashlight-stars .star-dot{width:var(--star-size);height:var(--star-size);border-radius:50%;background:#fff;box-shadow:0 0 3px #ffffff45}
 .flashlight-stars .star-cross{width:var(--star-size);height:var(--star-size);background:radial-gradient(circle,#fff 0px,#ffffffaa .8px,#ffffff22 2px,transparent 5px)}
@@ -255,7 +255,7 @@ body.dark-ui .connection-thumbnails img.studio-saved-preview{max-height:none}
 @keyframes quiet-star{0%,100%{opacity:calc(var(--star-brightness)*.55)}50%{opacity:var(--star-brightness)}}
 @keyframes gentle-sparkle{0%,35%,100%{opacity:calc(var(--star-brightness)*.6);transform:scale(1)}50%{opacity:var(--star-brightness);transform:scale(1)}58%{opacity:calc(var(--star-brightness)*1.45);transform:scale(1.16)}72%{opacity:calc(var(--star-brightness)*.75);transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){.flashlight-stars i{animation:none;opacity:var(--star-brightness)}}
-@media(max-width:760px){.flashlight-stars{mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 110px,#000 180px);-webkit-mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 110px,#000 180px)}}
+@media(max-width:760px){.flashlight-stars{mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 165px,#000 270px);-webkit-mask-image:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 165px,#000 270px)}}
 body.dark-ui.landing .draw-stage,body.dark-ui.drawing .draw-stage{width:min(820px,90vw);margin:0 auto 12px;max-height:48svh}
 body.dark-ui.landing .draw-stage canvas,body.dark-ui.drawing .draw-stage canvas{max-height:48svh;object-fit:contain}
 @media(max-width:760px){body.dark-ui.landing .draw-stage,body.dark-ui.drawing .draw-stage{width:110vw;max-width:none;margin-left:calc((100% - 110vw)/2);max-height:42svh}body.dark-ui.landing .draw-stage canvas,body.dark-ui.drawing .draw-stage canvas{max-height:42svh}}
@@ -264,3 +264,12 @@ body.dark-ui.landing .draw-stage canvas,body.dark-ui.drawing .draw-stage canvas{
 body.dark-ui .board-edit-draft{border:1px solid #555;background:#222;color:#eee;border-radius:4px;padding:8px 12px;margin:12px;font-size:11px}
 .studio-elements:not([open]){padding:12px 0;margin-bottom:16px}
 .studio-elements:not([open])>summary{margin-bottom:0}
+
+/* Four references stay compact so the results remain in the viewport. */
+body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-images{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-slot img,body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-slot .reference-text{height:64px;max-height:64px}
+body.dark-ui .results:has(#pairPanel:not([hidden])) .slot-empty{min-height:50px;display:grid;place-items:center;text-align:center}
+body.dark-ui .results:has(#pairPanel:not([hidden])) .slot-title{white-space:nowrap;text-overflow:ellipsis;max-height:14px}
+#pairSelectionStatus{font-size:10px;line-height:1.4;margin:8px 0 0;color:#aaa}
+body.dark-ui .optional-features[open]{max-height:160px;overflow:auto;padding-right:6px}
+@media(max-width:760px){body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-images{grid-template-columns:repeat(4,minmax(0,1fr))}body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-slot{padding:5px}body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-slot img,body.dark-ui .results:has(#pairPanel:not([hidden])) .pair-slot .reference-text{height:48px;max-height:48px}.clear-pair{width:19px;height:19px;font-size:15px}.slot-index{font-size:11px}}
