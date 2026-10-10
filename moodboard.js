@@ -1,7 +1,7 @@
 import {clampZoom,fitBoardZoom,boardDragDelta} from './board-geometry.js?v=1';
 export function createMoodboard(getSaved,localize=async item=>item,onEditDraft=null){
   const $=s=>document.querySelector(s),surface=$('#boardSurface'),viewport=$('#boardViewport'),plane=$('#boardPlane');
-  let zoom=1;
+  let zoom=1,worldWidth=1800,worldHeight=2200;
   let data;try{data=JSON.parse(localStorage.getItem('laya:board:v1'))||{};}catch{data={};}
   data.positions=data.positions||{};data.notes=Array.isArray(data.notes)?data.notes:[];
   data.arrows=Array.isArray(data.arrows)?data.arrows.filter(a=>a?.id&&a.from&&a.to&&a.from!==a.to):[];
@@ -10,7 +10,7 @@ export function createMoodboard(getSaved,localize=async item=>item,onEditDraft=n
   function applyZoom(value,center=true){
     const previous=zoom,cx=(viewport.scrollLeft+viewport.clientWidth/2)/previous,cy=(viewport.scrollTop+viewport.clientHeight/2)/previous;
     zoom=clampZoom(value);surface.style.transform=`scale(${zoom})`;
-    plane.style.width=1800*zoom+'px';plane.style.height=2200*zoom+'px';
+    plane.style.width=worldWidth*zoom+'px';plane.style.height=worldHeight*zoom+'px';
     $('#boardZoomValue').textContent=Math.round(zoom*100)+'%';
     $('#boardZoomOut').disabled=zoom<=.25;$('#boardZoomIn').disabled=zoom>=2;
     if(center)viewport.scrollTo(Math.max(0,cx*zoom-viewport.clientWidth/2),Math.max(0,cy*zoom-viewport.clientHeight/2));
@@ -52,7 +52,7 @@ export function createMoodboard(getSaved,localize=async item=>item,onEditDraft=n
     return {x:x+dx*scale,y:y+dy*scale};
   }
   function drawArrows(){
-    if(!arrowLayer)return;arrowLayer.replaceChildren();
+    if(!arrowLayer)return;worldWidth=Math.max(1800,...[...cards.values()].map(c=>c.offsetLeft+c.offsetWidth+30));worldHeight=Math.max(2200,...[...cards.values()].map(c=>c.offsetTop+c.offsetHeight+30));surface.style.width=worldWidth+'px';surface.style.height=worldHeight+'px';plane.style.width=worldWidth*zoom+'px';plane.style.height=worldHeight*zoom+'px';arrowLayer.setAttribute('width',worldWidth);arrowLayer.setAttribute('height',worldHeight);arrowLayer.replaceChildren();
     const defs=document.createElementNS(ns,'defs'),marker=document.createElementNS(ns,'marker');
     marker.id='board-arrow-head';marker.setAttribute('viewBox','0 0 10 10');marker.setAttribute('refX','9');marker.setAttribute('refY','5');marker.setAttribute('markerWidth','8');marker.setAttribute('markerHeight','8');marker.setAttribute('orient','auto');
     const head=document.createElementNS(ns,'path');head.setAttribute('d','M 0 0 L 10 5 L 0 10 z');head.setAttribute('fill','#111');marker.append(head);defs.append(marker);arrowLayer.append(defs);
@@ -79,7 +79,7 @@ export function createMoodboard(getSaved,localize=async item=>item,onEditDraft=n
     handle.onpointerdown=e=>{
       if(e.button!==0||connecting)return;e.preventDefault();handle.setPointerCapture(e.pointerId);card.style.zIndex=10;
       const start={x:e.clientX,y:e.clientY,left:parseFloat(card.style.left),top:parseFloat(card.style.top)};
-      handle.onpointermove=event=>{card.style.left=Math.max(0,Math.min(1800-card.offsetWidth,start.left+boardDragDelta(event.clientX-start.x,zoom)))+'px';card.style.top=Math.max(0,Math.min(2200-card.offsetHeight,start.top+boardDragDelta(event.clientY-start.y,zoom)))+'px';drawArrows();};
+      handle.onpointermove=event=>{card.style.left=Math.max(0,Math.min(worldWidth-card.offsetWidth,start.left+boardDragDelta(event.clientX-start.x,zoom)))+'px';card.style.top=Math.max(0,Math.min(worldHeight-card.offsetHeight,start.top+boardDragDelta(event.clientY-start.y,zoom)))+'px';drawArrows();};
       const finish=()=>{handle.onpointermove=null;card.style.zIndex='';data.positions[id]={x:parseFloat(card.style.left),y:parseFloat(card.style.top)};persist();};
       handle.onpointerup=finish;handle.onpointercancel=finish;
     };
