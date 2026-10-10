@@ -95,3 +95,6 @@ body.dark-ui #status{font-size:11px;margin:0 0 9px;min-height:0;color:#c1b5a2}
 body.dark-ui.landing .controls,body.dark-ui.drawing .controls{mix-blend-mode:lighten}
 
 body.dark-ui.landing .idea-actions,body.dark-ui.drawing .idea-actions{display:none}
+
+/* Keep live status announcements out of the visual result wall. */
+body.dark-ui #status,body.dark-ui #readingNotice{position:absolute;width:1px;height:1px;min-height:0;margin:0;padding:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
