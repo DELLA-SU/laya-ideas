@@ -19,7 +19,7 @@ export function createFlashlight(results,grid,toggle,value){
   toggle.setAttribute('aria-checked',String(enabled));value.textContent=enabled?'ON':'OFF';
   const r=results.getBoundingClientRect(),g=grid.getBoundingClientRect();
   const top=Math.max(0,r.top,g.top),bottom=Math.min(innerHeight,r.bottom,g.bottom),left=Math.max(0,r.left),right=Math.min(innerWidth,r.right);
-  const card=point?.card?.isConnected?point.card:grid.querySelector('.card'),cardWidth=card?.getBoundingClientRect().width||200,core=Math.max(52,cardWidth/2+4),feather=Math.max(12,cardWidth*.06);
+  const card=point?.card?.isConnected?point.card:grid.querySelector('.card'),cardWidth=card?.getBoundingClientRect().width||200,core=Math.max(52,cardWidth/2+4)*1.2,feather=Math.max(12,cardWidth*.06)*1.2;
   for(const [key,radius] of Object.entries({'light-core':core,'light-soft':core+feather*.33,'light-edge':core+feather*.72,'light-end':core+feather,'star-clear':core+feather*.72,'star-return':core+feather+25}))mask.style.setProperty('--'+key,radius+'px');
   mask.hidden=!enabled||!ready||results.hidden||(editor&&!editor.hidden)||bottom<=top||!grid.children.length||document.body.classList.contains('drawing');
   mask.style.left=left+'px';mask.style.top=top+'px';mask.style.width=Math.max(0,right-left)+'px';mask.style.height=Math.max(0,bottom-top)+'px';
