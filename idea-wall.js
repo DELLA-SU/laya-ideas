@@ -4,6 +4,14 @@ export function wallSize(width,height){
   const count=columns*rows;
   return {columns,count};
 }
+// Collections keep natural previews compact instead of stretching sparse rows.
+export function collectionWallSize(width,height,count,gap=20){
+  const columns=Math.max(1,Math.min(wallSize(width,height).columns,count||1));
+  const rows=Math.max(1,Math.ceil(count/columns));
+  const cardWidth=Math.max(1,(width-(columns-1)*gap)/columns);
+  const cardHeight=Math.min(360,cardWidth*1.35);
+  return {columns,height:Math.min(height,rows*cardHeight+(rows-1)*gap)};
+}
 export function layoutWall(grid,columns,gap=20,fitHeight=0){
   const width=grid.clientWidth,cardWidth=(width-(columns-1)*gap)/columns;
   if(fitHeight>0){

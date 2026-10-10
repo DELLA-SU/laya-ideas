@@ -271,3 +271,36 @@ body.dark-ui .guy-brand{display:block;font-family:'Syne',Arial,sans-serif;font-s
 body.dark-ui .guy-brand-dot{color:#fff}
 body.dark-ui.landing .guy-brand,body.dark-ui.drawing .guy-brand{display:block;font-family:'Syne',Arial,sans-serif;font-size:40px;font-weight:700;letter-spacing:-1.6px;text-align:center;line-height:1.12;margin:0 0 clamp(32px,5svh,48px)}
 @media(max-width:760px){body.dark-ui .guy-brand{font-size:20px}body.dark-ui.landing .guy-brand,body.dark-ui.drawing .guy-brand{font-size:29px;letter-spacing:-.9px;margin-bottom:32px}}
+
+/* Saved images and drafts remain fully visible in compact, balanced cards. */
+.viewport-wall.collection-wall .image-open img{object-fit:contain}
+.viewport-wall.collection-wall>.connection-card{display:flex;flex-direction:column;background:#161616;border:1px solid #393939;padding:12px;gap:10px}
+.viewport-wall.collection-wall .connection-open{display:flex;flex:1;flex-direction:column;gap:8px;height:auto;min-height:0}
+body.dark-ui .collection-wall .connection-thumbnails{flex:1;min-height:0;height:auto!important;width:100%;overflow:hidden}
+body.dark-ui .collection-wall .connection-thumbnails img{height:100%;max-height:100%;aspect-ratio:auto;object-fit:contain;border:0;padding:0}
+.collection-wall .connection-open h3{margin:0;flex:none;font-size:13px}
+.collection-wall .connection-text{margin:0;-webkit-line-clamp:2;flex:none}
+.collection-wall .remove-connection{flex:none;align-self:flex-start;padding:7px 10px}
+
+/* A zoomable canvas keeps cards, notes and arrows in the same coordinate space. */
+body.dark-ui #boardDialog{display:flex;flex-direction:column}
+body.dark-ui #boardDialog:not([open]){display:none}
+body.dark-ui #boardDialog.board-fullscreen{width:100vw;height:100svh;max-height:100svh;max-width:none;margin:0;border-radius:0;border:0}
+.board-toolbar{flex:none;gap:8px}
+.board-toolbar select{border:1px solid #454545;border-radius:4px;padding:9px 8px;font-size:12px}
+.board-zoom{display:flex;align-items:center;gap:5px;margin-left:auto}
+.board-zoom #boardZoomReset{min-width:65px;font-variant-numeric:tabular-nums}
+body.dark-ui #boardViewport{flex:1;height:auto;min-height:0;cursor:grab}
+#boardViewport.board-panning{cursor:grabbing;user-select:none}
+#boardPlane{position:relative;width:1800px;height:2200px}
+body.dark-ui #boardSurface{position:absolute;left:0;top:0;width:1800px;height:2200px;transform-origin:0 0}
+.board-note-tools{display:flex;gap:8px;align-items:center;padding:10px}
+.board-note-tools select{width:auto;min-width:0;padding:5px;font-size:11px;border:1px solid #666;border-radius:4px}
+.board-note-tools .board-remove{margin:0;padding:4px;background:transparent;cursor:pointer}
+body.dark-ui .board-note[data-tone="blue"]{background:#1b3045}body.dark-ui .board-note[data-tone="purple"]{background:#34283f}body.dark-ui .board-note[data-tone="green"]{background:#233a30}
+body.dark-ui .board-note-section{width:360px;background:transparent;border:0}
+.board-note-section textarea{height:85px!important;min-height:85px;font-size:26px!important;font-weight:700;line-height:1.3}
+.board-palette{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:12px}
+.board-palette label{min-width:0;text-align:center;font-size:9px}
+.board-palette input[type="color"]{display:block;width:100%;height:80px;padding:0;border:0;margin-bottom:8px;cursor:pointer}
+@media(max-width:760px){.board-zoom{margin-left:0;flex-wrap:wrap}.board-toolbar{max-height:160px;overflow:auto}.board-toolbar select{font-size:10px;padding:6px}}
