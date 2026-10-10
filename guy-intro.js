@@ -29,7 +29,6 @@ export function playGuyIntro(){
    const radius=Math.min(width*.22,h*.22)*aha;ctx.save();ctx.globalAlpha=Math.sin(Math.PI*aha)*.8;ctx.strokeStyle='#ffe1b2';ctx.shadowColor='#ffd39a';ctx.shadowBlur=14;ctx.lineWidth=1.5;
    for(let i=0;i<8;i++){const a=i*Math.PI/4;ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*radius*.72,cy+Math.sin(a)*radius*.72);ctx.lineTo(cx+Math.cos(a)*radius,cy+Math.sin(a)*radius);ctx.stroke();}ctx.restore();
   }
-  if(t>4.85){ctx.save();ctx.globalAlpha=Math.min(1,(t-4.85)*3)*Math.min(1,(6.8-t)*2);ctx.fillStyle='#fff';ctx.shadowColor='#ffd39a';ctx.shadowBlur=12;ctx.textAlign='center';ctx.font="600 24px Arial, 'Apple SD Gothic Neo', sans-serif";ctx.fillText('아!',Math.min(width-45,cx+rx*.77),Math.max(55,cy-ry*.5));ctx.restore();}
  }
  function paint(now){
   if(done)return;ctx.fillStyle=look.background;ctx.fillRect(0,0,width,height);
