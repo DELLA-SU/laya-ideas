@@ -264,3 +264,13 @@ body.dark-ui .optional-features[open]{max-height:160px;overflow:auto;padding-rig
 
 /* Keep the character's cool bulb light within the black interface. */
 body.dark-ui :is(#introCanvas,#drawCanvas){filter:hue-rotate(175deg) saturate(.55)}
+
+/* An editorial wordmark with a restrained, playful signature. */
+body.dark-ui .guy-brand{display:flex;align-items:baseline;justify-content:flex-start;gap:9px;line-height:1.2;white-space:nowrap}
+body.dark-ui .brand-ideation{font-family:Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:.17em}
+body.dark-ui .brand-guy{font-family:Georgia,'Times New Roman',serif;font-size:27px;font-weight:400;font-style:italic;letter-spacing:-1.5px}
+body.dark-ui .guy-brand-dot{display:inline-block;margin-left:1px}
+body.dark-ui.landing .guy-brand,body.dark-ui.drawing .guy-brand{display:flex;justify-content:center;gap:11px}
+body.dark-ui.landing .brand-ideation,body.dark-ui.drawing .brand-ideation{font-size:13px;letter-spacing:.20em}
+body.dark-ui.landing .brand-guy,body.dark-ui.drawing .brand-guy{font-size:34px}
+@media(max-width:760px){body.dark-ui .brand-ideation{font-size:10px}body.dark-ui .brand-guy{font-size:24px}body.dark-ui.landing .brand-ideation,body.dark-ui.drawing .brand-ideation{font-size:12px}body.dark-ui.landing .brand-guy,body.dark-ui.drawing .brand-guy{font-size:31px}}
