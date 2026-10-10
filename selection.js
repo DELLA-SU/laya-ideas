@@ -69,7 +69,7 @@ export function chooseSourceBatch(pool,seen,previous,size,current=[]) {
 export function chooseIdeaBatch(images,readings,seen,previous,size,current=[]) {
   const currentReading=current.filter(x=>x.kind==='reading').length;
   const currentImages=current.length-currentReading;
-  const readingTarget=Math.max(0,Math.min(size,Math.round((current.length+size)*.30)-currentReading));
+  const readingTarget=current.length+size<3?0:Math.max(0,Math.min(size,Math.round((current.length+size)*.30)-currentReading));
   const texts=chooseBatch(uniqueImages(readings).filter(x=>!current.some(c=>c.hash===x.hash||sameReading(c,x))),seen,previous,readingTarget);
   const visuals=chooseSourceBatch(images,seen,previous,size-texts.items.length,current);
   // Missing images must never be replaced by a wall of text.

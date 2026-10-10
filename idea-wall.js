@@ -1,11 +1,21 @@
 export function wallSize(width,height){
   const columns=Math.max(2,Math.min(6,Math.floor((width+20)/220)));
-  const cardWidth=(width-(columns-1)*20)/columns;
-  const count=Math.min(100,Math.max(columns*2,Math.ceil(height/(cardWidth*.95+20))*columns+columns));
+  const rows=Math.max(columns===2&&height>=300?2:1,Math.min(4,Math.floor((height+20)/250)));
+  const count=columns*rows;
   return {columns,count};
 }
-export function layoutWall(grid,columns,gap=20){
+export function layoutWall(grid,columns,gap=20,fitHeight=0){
   const width=grid.clientWidth,cardWidth=(width-(columns-1)*gap)/columns;
+  if(fitHeight>0){
+    const rows=Math.max(1,Math.ceil(grid.children.length/columns));
+    const height=Math.max(1,(fitHeight-(rows-1)*gap)/rows);
+    Array.from(grid.children).forEach((card,index)=>{
+      card.style.width=cardWidth+'px';card.style.height=height+'px';
+      card.style.left=(index%columns)*(cardWidth+gap)+'px';
+      card.style.top=Math.floor(index/columns)*(height+gap)+'px';
+    });
+    grid.style.height=fitHeight+'px';return fitHeight;
+  }
   const bottoms=Array(columns).fill(0);
   for(const card of grid.children){
     card.style.width=cardWidth+'px';
