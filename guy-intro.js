@@ -38,10 +38,9 @@ export function playGuyIntro(){
    const nod=reduced.matches?0:Math.sin(Math.PI*Math.min(1,Math.max(0,(t-4.8)/.75)))*.02;
    const zoom=reduced.matches?1:1.08-.08*settled+nod,scale=Math.max(width/off.naturalWidth,height/off.naturalHeight)*.86*zoom;
    const w=off.naturalWidth*scale,h=off.naturalHeight*scale,x=(width-w)/2,y=(height-h)/2;
-   const think=Math.min(1,Math.max(0,(t-1.5)/3.15)),tilt=reduced.matches?0:Math.sin(Math.PI*think)*-.018;
-   ctx.save();ctx.translate(width/2,height*.64);ctx.rotate(tilt);ctx.translate(-width/2,-height*.64);ctx.drawImage(offLayer,x,y,w,h);
+   ctx.drawImage(offLayer,x,y,w,h);
    if(onLayer){const energy=reduced.matches?.7:t<.7?0:t<.85?.7:t<1.02?.12:t<1.17?.85:t<1.32?.28:Math.min(1,(t-1.32)*1.8)*(t>2&&t<4.8?.9+.08*Math.sin(t*2.4):1);ctx.save();ctx.globalAlpha=energy;ctx.drawImage(onLayer,x,y,w,h);ctx.restore();}
-   ctx.restore();ideas(t,x,y,w,h);
+   ideas(t,x,y,w,h);
    if(t>(reduced.matches?1.1:6.8)){finish();return;}
   }frame=requestAnimationFrame(paint);
  }
