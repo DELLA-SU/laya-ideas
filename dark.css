@@ -67,7 +67,7 @@ body.dark-ui.landing input{font-size:18px}
 .viewport-wall .reading-open h3{font-size:clamp(13px,1.05vw,17px);line-height:1.55}
 .viewport-wall .reading-excerpt{font-size:12px}
 .viewport-wall .connection-thumbnails img{max-height:110px}
-.flashlight-mask{position:fixed;z-index:6;pointer-events:none;--light-x:-1000px;--light-y:-1000px;background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 100px,rgba(0,0,0,.18) 130px,rgba(0,0,0,.72) 165px,#000 215px)}
+.flashlight-mask{position:fixed;z-index:6;pointer-events:none;--light-x:-1000px;--light-y:-1000px;background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 100px,rgba(0,0,0,.18) 130px,rgba(0,0,0,.72) 165px,rgba(0,0,0,.9) 215px)}
 .flashlight-mask::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--light-x) var(--light-y),rgba(255,255,255,.04) 0px,rgba(255,255,255,.08) 100px,transparent 180px)}
 @media(max-width:760px){
  body.dark-ui:not(.landing):not(.drawing) .workspace{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);height:100svh}
@@ -88,7 +88,7 @@ body.dark-ui.landing input{font-size:18px}
  body.dark-ui.landing .guy-brand{margin-bottom:12px}
  body.dark-ui.landing .draw-stage,body.dark-ui.drawing .draw-stage{width:160vw;max-width:none;margin-left:calc((100% - 160vw)/2)}
  body.dark-ui.landing .draw-stage canvas{max-height:56svh}
- .flashlight-mask{background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 70px,rgba(0,0,0,.55) 110px,#000 160px)}
+ .flashlight-mask{background:radial-gradient(circle at var(--light-x) var(--light-y),transparent 0px,transparent 70px,rgba(0,0,0,.55) 110px,rgba(0,0,0,.9) 160px)}
 }
 
 body.dark-ui #status{font-size:11px;margin:0 0 9px;min-height:0;color:#bbbbbb}

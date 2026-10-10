@@ -14,20 +14,19 @@ export function createFlashlight(results,grid,toggle,value){
   star.style.setProperty('--star-duration',(8+i%7)+'s');
   star.style.setProperty('--star-delay',-(i%13)+'s');stars.append(star);
  }mask.append(stars);
- let timer=0,frame=0,generation=0,ready=false,previewing=false,point=null;
+ let frame=0,ready=false,point=null;
  function sync(){
   toggle.setAttribute('aria-checked',String(enabled));value.textContent=enabled?'ON':'OFF';
   const r=results.getBoundingClientRect(),g=grid.getBoundingClientRect();
   const top=Math.max(0,r.top,g.top),bottom=Math.min(innerHeight,r.bottom,g.bottom),left=Math.max(0,r.left),right=Math.min(innerWidth,r.right);
-  mask.hidden=!enabled||!ready||previewing||results.hidden||(editor&&!editor.hidden)||bottom<=top||!grid.children.length||document.body.classList.contains('drawing');
+  mask.hidden=!enabled||!ready||results.hidden||(editor&&!editor.hidden)||bottom<=top||!grid.children.length||document.body.classList.contains('drawing');
   mask.style.left=left+'px';mask.style.top=top+'px';mask.style.width=Math.max(0,right-left)+'px';mask.style.height=Math.max(0,bottom-top)+'px';
   mask.style.setProperty('--light-x',point?point.x-left+'px':'-1000px');mask.style.setProperty('--light-y',point?point.y-top+'px':'-1000px');
  }
  function schedule(){cancelAnimationFrame(frame);frame=requestAnimationFrame(sync);}
- function clear(){generation++;clearTimeout(timer);ready=false;previewing=false;point=null;sync();}
+ function clear(){ready=false;point=null;sync();}
  function preview(){
-  const current=++generation;clearTimeout(timer);ready=!!grid.children.length;previewing=true;sync();
-  timer=setTimeout(()=>{if(current!==generation)return;previewing=false;sync();},1000);
+  ready=!!grid.children.length;sync();
  }
  toggle.onclick=()=>{enabled=!enabled;try{localStorage.setItem(key,enabled?'on':'off');}catch{}if(enabled)preview();else sync();};
  results.addEventListener('pointermove',e=>{point={x:e.clientX,y:e.clientY};schedule();},{passive:true});
