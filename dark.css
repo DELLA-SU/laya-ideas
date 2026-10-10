@@ -258,3 +258,5 @@ body.dark-ui.landing .draw-stage canvas,body.dark-ui.drawing .draw-stage canvas{
 .studio-variants{grid-template-columns:repeat(2,minmax(0,1fr))}
 #mixStudio .studio-variants button[aria-pressed="true"]{display:none}
 body.dark-ui .board-edit-draft{border:1px solid #555;background:#222;color:#eee;border-radius:4px;padding:8px 12px;margin:12px;font-size:11px}
+.studio-elements:not([open]){padding:12px 0;margin-bottom:16px}
+.studio-elements:not([open])>summary{margin-bottom:0}
