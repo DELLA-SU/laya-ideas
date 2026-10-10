@@ -36,13 +36,13 @@ export function expandPair(pair, features = [], remix = 0) {
   const rounds = [
     [
       {lens:'역할 뒤집기',title:`${withParticle(b,'을를')} 입은 ${a}`,insight:`${withParticle(a,'은는')} 주인공, ${withParticle(b,'은는')} 배경이라는 역할을 바꾸면 어떨까요? ${withParticle(b,'이가')} 움직이고 ${withParticle(a,'이가')} 그 흔적을 받아주는 장면을 상상해보세요.`,visual:`${b}의 변화가 일어나는 부분만 선명하고, ${withParticle(a,'은는')} 겹친 실루엣으로 남는 포스터.`,experiment:`${a}의 윤곽 세 개에 ${b}의 서로 다른 상태를 넣어 작은 포스터 시리즈를 만드세요.`},
-      {lens:'감각 번역',title:`눈으로 만나는 ${b}`,insight:`${a}에서 느껴지는 움직임을 ${b}의 감각으로 번역해보세요. 움직임은 선의 간격, 강도는 밝기, 멈춤은 여백으로 바꿉니다.`,visual:`${a}의 실루엣을 중심에 두고 ${withParticle(b,'을를')} 연상시키는 선과 점이 주변으로 퍼지는 설치 장면.`,experiment:`${a}와 ${withParticle(b,'을를')} 표현할 동사 하나씩 골라, 두 동사가 반복되는 5초 모션 스케치를 만드세요.`},
+      {lens:'감각 번역',title:`눈으로 만나는 ${b}`,insight:`${a}에서 느껴지는 움직임을 ${b}의 감각으로 번역해보세요. 움직임은 선의 간격, 강도는 밝기, 멈춤은 여백으로 바꿉니다.`,visual:`${a}의 실루엣을 중심에 두고 ${withParticle(b,'을를')} 연상시키는 선과 점이 주변으로 퍼지는 설치 장면.`,experiment:`${withParticle(a,'과와')} ${withParticle(b,'을를')} 표현할 동사 하나씩 골라, 두 동사가 반복되는 5초 모션 스케치를 만드세요.`},
       {lens:'엉뚱한 제품',title:`${a} × ${b} 실험실`,insight:`${a}의 형태가 ${withParticle(b,'을를')} 다루는 도구가 된다면 어떨까요? 보기 위한 이미지를 직접 조작하는 작은 물건으로 옮겨봅니다.`,visual:`${a}의 윤곽과 ${b}의 리듬을 가진 손바닥 크기 오브제. 눌렀을 때 형태나 빛이 달라집니다.`,experiment:`종이, 반투명 필름, 작은 빛 하나로 만질 수 있는 샘플을 만들어보세요.`}
     ],
     [
       {lens:'크기 바꾸기',title:`거대한 ${b}, 작은 ${a}`,insight:`두 요소의 크기를 극단적으로 바꾸면 익숙한 관계가 낯설어집니다. ${withParticle(a,'을를')} 아주 작게, ${withParticle(b,'을를')} 공간 전체로 키워보세요.`,visual:`거대한 ${b}의 패턴 안에 작은 ${withParticle(a,'이가')} 숨어 있는 초현실적인 장면.`,experiment:'같은 구도를 1:1, 1:10, 1:100 비율로 그려 가장 의외인 장면을 고르세요.'},
       {lens:'시간 섞기',title:`${withParticle(a,'이가')} 남긴 ${b}`,insight:`${withParticle(a,'이가')} 사라진 뒤 ${b}만 남는 순간을 상상해보세요. 대상보다 대상이 남긴 흔적이 이야기를 이끌게 합니다.`,visual:`${withParticle(a,'은는')} 흐릿한 잔상, ${withParticle(b,'은는')} 선명한 흔적으로 남는 긴 노출 느낌의 포스터.`,experiment:'시작·중간·끝 세 장 중 마지막 장에서 주인공을 지우고 흔적만 남겨보세요.'},
-      {lens:'참여하는 장면',title:`당신이 켜는 ${a}`,insight:`관람자의 행동이 ${a}와 ${withParticle(b,'을를')} 이어주는 세 번째 재료가 된다면 어떨까요? 가까이 가거나 손을 대야만 두 요소가 연결됩니다.`,visual:`어두운 공간에서 사람의 손 주변으로 ${a}와 ${b}의 패턴이 천천히 드러나는 인터랙티브 설치.`,experiment:'마우스 거리 하나를 입력값으로 삼아 형태·빛·속도 중 한 가지만 바꾸는 프로토타입을 만드세요.'}
+      {lens:'참여하는 장면',title:`당신이 켜는 ${a}`,insight:`관람자의 행동이 ${withParticle(a,'과와')} ${withParticle(b,'을를')} 이어주는 세 번째 재료가 된다면 어떨까요? 가까이 가거나 손을 대야만 두 요소가 연결됩니다.`,visual:`어두운 공간에서 사람의 손 주변으로 ${withParticle(a,'과와')} ${b}의 패턴이 천천히 드러나는 인터랙티브 설치.`,experiment:'마우스 거리 하나를 입력값으로 삼아 형태·빛·속도 중 한 가지만 바꾸는 프로토타입을 만드세요.'}
     ]
   ];
   const row=rounds[Math.abs(Math.trunc(Number(remix)||0))%rounds.length];
