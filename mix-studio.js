@@ -1,4 +1,4 @@
-import {PURPOSES,paletteFromPixels,layoutFor,newProject,normalizeProject,productionBrief} from './mix-studio-model.js?v=1';
+import {PURPOSES,paletteFromPixels,layoutFor,newProject,normalizeProject,productionBrief} from './mix-studio-model.js?v=2';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const control=(label,input)=>{const wrap=el('label',undefined,'studio-field');wrap.append(el('span',label),input);return wrap;};
 const input=(type,label,value)=>{const n=el('input');n.type=type;n.setAttribute('aria-label',label);n.value=value;return n;};
