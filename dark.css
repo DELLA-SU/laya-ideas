@@ -269,5 +269,5 @@ body.dark-ui :is(#introCanvas,#drawCanvas){filter:hue-rotate(175deg) saturate(.5
 @font-face{font-family:'Syne';font-style:normal;font-weight:700;font-display:swap;src:url('./assets/fonts/syne-700.ttf') format('truetype')}
 body.dark-ui .guy-brand{display:block;font-family:'Syne',Arial,sans-serif;font-size:23px;font-weight:700;font-style:normal;letter-spacing:-.35px;line-height:1.12;white-space:nowrap;text-align:left}
 body.dark-ui .guy-brand-dot{color:#fff}
-body.dark-ui.landing .guy-brand,body.dark-ui.drawing .guy-brand{display:block;font-family:'Syne',Arial,sans-serif;font-size:44px;font-weight:700;letter-spacing:-1.8px;text-align:center;line-height:1.12}
-@media(max-width:760px){body.dark-ui .guy-brand{font-size:20px}body.dark-ui.landing .guy-brand,body.dark-ui.drawing .guy-brand{font-size:32px;letter-spacing:-1px}}
+body.dark-ui.landing .guy-brand,body.dark-ui.drawing .guy-brand{display:block;font-family:'Syne',Arial,sans-serif;font-size:44px;font-weight:700;letter-spacing:-1.8px;text-align:center;line-height:1.12;margin:0 0 clamp(24px,4svh,40px)}
+@media(max-width:760px){body.dark-ui .guy-brand{font-size:20px}body.dark-ui.landing .guy-brand,body.dark-ui.drawing .guy-brand{font-size:32px;letter-spacing:-1px;margin-bottom:24px}}
